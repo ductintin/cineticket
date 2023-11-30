@@ -1,7 +1,14 @@
+"use client"
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-
+import { Provider } from 'react-redux'
+import Home from './page'
+import { PersistGate } from "redux-persist/integration/react";
+import { usePathname } from "next/navigation"
+import { store, persistor } from "@/redux/store"
+import Header from "@/components/header/header"
+import Footer from "@/components/footer/footer"
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -14,9 +21,21 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
+  
+  const pathname=usePathname();
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+      <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        {pathname==="/login"||pathname=="/signup"||pathname.includes("/admin")?<></>:<Header/>}
+        {children}
+        {pathname==="/login"||pathname=="/signup"||pathname.includes("/admin")?<></>: <Footer/>}
+        </PersistGate>
+      </Provider>
+      </body>
     </html>
   )
 }

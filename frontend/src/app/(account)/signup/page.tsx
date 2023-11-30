@@ -4,9 +4,9 @@ import styles from './signup.module.css'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
-//import { loginUser, registerUser } from '@/redux/apiRequests';
+import { loginUser, registerUser } from '@/redux/apiRequests';
 //import { useNavigate } from 'react-router';
-//import PopupResult from '@/components/popup_resultAuth/popup_result';
+import PopupResult from '@/components/popup_resultAuth/popup_result';
 export default function Signup_Form() {
     const [username_regis,setusername_regis]=useState("");
     const [password_regis,setpassword_regis]=useState("");
@@ -15,7 +15,7 @@ export default function Signup_Form() {
     const [phone,setphone]=useState("");
     const [repassword,setrepassword]=useState("");
 
-    //const dispatch=useDispatch();
+    const dispatch=useDispatch();
     const router=useRouter();
     const [noti, setnoti]= useState("")
     const [modalOpen,setModalOpen]=useState(false);
@@ -34,9 +34,9 @@ export default function Signup_Form() {
       
       
         try{
-            // const res = await registerUser(newUser, dispatch,router)
-            // loginUser({username:username_regis,password: password_regis}, dispatch,router)
-            // console.log("ré", res)
+            const res = await registerUser(newUser, dispatch,router)
+            loginUser({username:username_regis,password: password_regis}, dispatch,router)
+            console.log("ré", res)
             setnoti("Đăng ký thành công!");
             setModalOpen(true)
         }
@@ -73,8 +73,8 @@ export default function Signup_Form() {
                     <Link href={''} className={styles.link}>Đã có tài khoản? Đăng nhập ngay!</Link></p>
 
             </div>  
-            {/* <PopupResult message={noti} button={[]} urls={[]}
-      modalOpen={modalOpen} setModalOpen={setModalOpen}  /> */}
+            <PopupResult message={noti} button={[]} urls={[]}
+      modalOpen={modalOpen} setModalOpen={setModalOpen}  />
             </form>
             </>
     
