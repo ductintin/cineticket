@@ -51,6 +51,11 @@ const movieAPI = {
     return get(url, "");
   },
 
+  createMovie: function (token:string, data:any){
+    const url = `${apiV1}/movies`;
+    return post(url,data,token);
+  },
+
   getIDSeat: function(){
     const url = `${apiV1}/seats`;
     return get(url, "");

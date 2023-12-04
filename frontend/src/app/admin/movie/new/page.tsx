@@ -64,7 +64,7 @@ export default function Film_manager ({params, searchParams}: Props) {
       const user=useSelector((state:any)=> state.auth.login.currentUser)
       const token=user?.token
       console.log('token ne ', token)
-      const [films, setfilms] = useState<any>();
+      const [films, setfilms] = useState<any>({});
 
       const stt = async () => {
         const res11= await showtimeAPI.getShowtime(id)
@@ -72,11 +72,11 @@ export default function Film_manager ({params, searchParams}: Props) {
         const res3= await showtimeAPI.getSchebyShowtime(id)
         setAllSche(res3.data)
         setSche(res3.data.slice(0,5))
-      }    
+      }
       useEffect(()=>{
           stt();
       },[])
-        
+
 
       const toastOptionsError = {
         position: toast.POSITION.TOP_CENTER as ToastPosition,
@@ -92,7 +92,7 @@ export default function Film_manager ({params, searchParams}: Props) {
           fontWeight: '500',
         },
         icon: <FaTimes style={{color:'red'}}/>
-        
+
       };
      
       const toastOptions = {
@@ -162,12 +162,12 @@ export default function Film_manager ({params, searchParams}: Props) {
           duration: films?.duration,
           rating: films?.rating
         }
-        const id=films?._id
-        setIsEditing(false);
+        // const id=films?._id
+        // setIsEditing(false);
         console.log('movie data ', moviedata)
         try {
-          const respond = await movieAPI.patchMovie(id, moviedata, token);
-          toast.success('Cập nhật thông tin thành công!', toastOptions);
+          const respond = await movieAPI.createMovie( token,moviedata);
+          toast.success('Tạo movie thành công!', toastOptions);
         } catch (error) {
           toast.success('Lỗi!', toastOptionsError);
         }
@@ -278,261 +278,74 @@ export default function Film_manager ({params, searchParams}: Props) {
     return (
     <div className={s.body}>
 
-      <div className={s.title}>
-        <div>
-          {isEditing ? (
-            <input className={s.name} type="text" value={text?.title} />
-          ) : (
-            <div>
-              {
-                (!films ) ? 
-                <div></div>:<div className={s.name}>{films.title}</div>
-              }
-            </div>
-          )}
-        </div>
-      </div>
+      {/*<div className={s.title}>*/}
+      {/*  <div>*/}
+      {/*    {isEditing ? (*/}
+      {/*      <input className={s.name} type="text" value={text?.title} />*/}
+      {/*    ) : (*/}
+      {/*      <div>*/}
+      {/*        {*/}
+      {/*          (!films ) ? */}
+      {/*          <div></div>:<div className={s.name}>{films.title}</div>*/}
+      {/*        }*/}
+      {/*      </div>*/}
+      {/*    )}*/}
+      {/*  </div>*/}
+      {/*</div>*/}
       <div className={s.flex}>
         <div className={s.info}> Title: </div>
         <div>
-          {isEditing ? (
             <input className={s.data} type="text" value={text?.title} onChange={handleInputChange1} />
-          ) : (
-            <div>
-              {
-                (!films ) ? 
-                <div></div>:<div className={s.data}>{films.title}</div>
-              }
-            </div>
-          )}
         </div>
       </div>
       <div className={s.flex}>
         <div className={s.info}> Genre: </div>
         <div>
-          {isEditing ? (
             <input className={s.data} type="text" value={text?.genre} onChange={handleInputChange2} />
-          ) : (
-            <div>
-            {
-              (!films ) ? 
-              <div></div>:<div className={s.data}>{films.genre.join(", ")}</div>
-            }
-          </div>
-          )}
         </div>
       </div>
       <div className={s.flex}>
         <div className={s.info}> Director: </div>
         <div>
-          {isEditing ? (
             <input className={s.data} type="text" value={text?.director} onChange={handleInputChange3} />
-          ) : (
-            <div>
-            {
-              (!films ) ? 
-              <div></div>:<div className={s.data}>{films.director}</div>
-            }
-          </div>
-          )}
+
         </div>
       </div>
       <div className={s.flex}>
         <div className={s.info}> Cast: </div>
         <div>
-          {isEditing ? (
             <input className={s.data} type="text" value={text?.cast} onChange={handleInputChange4} />
-          ) : (
-            <div>
-            {
-              (!films ) ? 
-              <div></div>:<div className={s.data}>{films.cast.join(", ")}</div>
-            }
-          </div>
-          )}
         </div>
       </div>
       <div className={s.flex}>
         <div className={s.info}> Duration: </div>
         <div>
-          {isEditing ? (
             <input className={s.data} type="text" value={text?.duration} onChange={handleInputChange5} />
-          ) : (
-            <div>
-            {
-              (!films ) ? 
-              <div></div>:<div className={s.data}>{films.duration}</div>
-            }
-          </div>
-          )}
         </div>
       </div>
       <div className={s.flex}>
         <div className={s.info}> Language: </div>
         <div>
-          {isEditing ? (
             <input className={s.data} type="text" value={text?.language} onChange={handleInputChange6} />
-          ) : (
-            <div>
-            {
-              (!films ) ? 
-              <div></div>:<div className={s.data}>{films.language.join(", ")}</div>
-            }
-          </div>
-          )}
         </div>
       </div>
       <div className={s.flex}>
         <div className={s.info}> Rating: </div>
         <div>
-          {isEditing ? (
             <input className={s.data} type="text" value={text?.rating} onChange={handleInputChange7} />
-          ) : (
-            <div>
-            {
-              (!films ) ? 
-              <div></div>:<div className={s.data}>{films.rating}</div>
-            }
-          </div>
-          )}
         </div>
       </div>
       <div className={s.flex}>
         <div className={s.info}> Description: </div>
         <div>
-          {isEditing ? (
             <input className={s.data} type="text" value={text?.description} onChange={handleInputChange8} />
-          ) : (
-            <div>
-            {
-              (!films ) ? 
-              <div></div>:<div className={s.data}>{films.description}</div>
-            }
-          </div>
-          )}
         </div>
       </div>
-      
-   
-        <Button variant="contained" startIcon={<EditIcon />} onClick={handleEditClick}>
-          Edit
-        </Button>
+
         <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={handleSaveClick}>
-        Save
+            Save
         </Button>
-
-        <div className={s.schedules}> All schedules </div>
-        <TableContainer component={Paper}>
-          <Table>
-            
-            <TableHead>
-              <TableRow>
-                <TableCell  style={{ width: '200px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center' }}>ID</TableCell>
-                <TableCell  style={{ width: '100px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Date</TableCell>
-                <TableCell  style={{ width: '100px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Theatre</TableCell>
-                <TableCell  style={{ width: '200px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Time</TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {sche.map(row => (
-                <TableRow key={row._id}>
-                  <TableCell style={{textAlign: 'center'}}>{row._id}</TableCell>
-                  <TableCell style={{textAlign: 'center'}}>{row.date}</TableCell>
-                  <TableCell style={{textAlign: 'center'}}>{row.theatre}</TableCell>
-                  <TableCell style={{textAlign: 'center'}}>{row.time.join(", ")}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        <Button className= {s.edit} variant="contained" startIcon={<BeforeIcon />} onClick={handleBefore}>
-          BEFORE
-        </Button>
-        <Button className= {s.edit} variant="contained" startIcon={<NextIcon />} onClick={handleNext}>
-        NEXT
-        </Button>
-
-        <div className={s.schedules}> Add schedules </div>
-        <TableContainer component={Paper}>
-      <Table>
-        
-        <TableHead>
-          <TableRow>
-          <TableCell style={{ width: '20px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>No</TableCell>
-            <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Date</TableCell>
-            <TableCell  style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center' }}>Theatre</TableCell>
-            <TableCell  style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Time</TableCell>
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-          {data.map(row => (
-            <TableRow key={row.No}>
-              <TableCell style={{textAlign: 'center'}}>{row.No}</TableCell>
-
-              <TableCell>
-                  <input
-                  className={s.input}
-                  type="date"
-                  min="2023-06-01" // Ngày tối thiểu cho phép chọn
-                  max="2024-06-30" // Ngày tối đa cho phép 
-                  onChange={e => handleChangeField(row.No, 'date', e.target.value)}
-                    />
-              </TableCell>
-              
-              <TableCell>
-                <Select
-                  value={row.theatre || "Chọn rạp"}
-                  onChange={e => handleChangeField(row.No, 'theatre', e.target.value)}
-                >
-                  <MenuItem value="Chọn rạp" disabled>
-                    Chọn rạp
-                  </MenuItem>
-                  <MenuItem value="Happy Us Theatre Quận 1">Happy Us Theatre Quận 1</MenuItem>
-                  <MenuItem value="Happy Us Theatre Quận 2">Happy Us Theatre Quận 2</MenuItem>
-                  <MenuItem value="Happy Us Theatre Quận 3">Happy Us Theatre Quận 3</MenuItem>
-                  <MenuItem value="Happy Us Theatre Quận 4">Happy Us Theatre Quận 4</MenuItem>
-                  <MenuItem value="Happy Us Theatre Quận 5">Happy Us Theatre Quận 5</MenuItem>
-              </Select>
-              </TableCell>
-                
-                <TableCell>
-                <Select
-                      multiple
-                      value={row.time || ["a"]}
-                      onChange={e => handleChangeField(row.No, 'time', e.target.value)}
-                    >
-                       <MenuItem disabled value={["a"]} >
-                        Chọn giờ
-                      </MenuItem>
-                      {availableTimes.map(time => (
-                        <MenuItem key={time} value={time}>{time}</MenuItem>
-                      ))}
-                    </Select>
-
-                  </TableCell>
-                  <TableCell>
-                  <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => handleSaveSche(row.No)}>
-                            Save
-                          </Button>
-              </TableCell>
-
-              <TableCell>
-                <IconButton onClick={() => handleDeleteRow(row.No)} aria-label="delete">
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleAddRow}>
-        Add Row
-      </Button>
-    </TableContainer>
-      <ToastContainer />
+        <ToastContainer />
     </div>
     );
 }

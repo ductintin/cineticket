@@ -1,6 +1,6 @@
 import axios from "axios";
-export const baseURL =process.env.NEXT_PUBLIC_SERVER_URL|| "http://localhost:3000";
-export const baseURL_user = process.env.NEXT_PUBLIC_SERVER_URL|| "http://localhost:3000";
+export const baseURL ="http://localhost:3000";
+export const baseURL_user =  "http://localhost:3000";
 
 export const apiV1 = `${baseURL}/v1`;
 export const apiV1_user = `${baseURL_user}/v1`;

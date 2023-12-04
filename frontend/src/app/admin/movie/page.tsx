@@ -44,7 +44,7 @@ export default function Movies_Admin (){
             {/* filter to date */}
             <div className={styles.header}>
                 <div className={styles.addmovie}>
-                    <Image src={add_ad} alt="" width={15} height={15}/> Add movie
+                    <Link href={`/admin/movie/new`}><Image src={add_ad} alt="" width={15} height={15}/> Add movie</Link>
                 </div>
                 <div className={styles.timing}> Start:   </div>
                 <div className={styles.header__date}>31/07/2022</div>
