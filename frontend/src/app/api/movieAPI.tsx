@@ -18,9 +18,9 @@ const movieAPI = {
     const url =`${apiV1}/movies/`;
     return get(url,token);
   },
-  getMovie: function (id: string, token:string){
+  getMovie: function (id: string){
     const url =`${apiV1}/movies/${id}`;
-    return get (url,token);
+    return get (url,"");
   },
  
   quickBuyTicket: function (query:string) {
@@ -49,11 +49,6 @@ const movieAPI = {
   getUpComingMovies: function () {
     const url = `${apiV1}/showtimes/upcoming`;
     return get(url, "");
-  },
-
-  createMovie: function (token:string, data:any){
-    const url = `${apiV1}/movies`;
-    return post(url,data,token);
   },
 
   getIDSeat: function(){

@@ -20,7 +20,7 @@ router.post('/photo/:id', auth.manager, uploadMiddleware, uploadImage, movieCont
 router.get('/', auth.manager, movieController.getAllMovies);
 
 // Get a movie by ID
-router.get('/:id', auth.manager, movieController.getMovieById);
+router.get('/:id', movieController.getMovieById);
 
 // Update a movie by ID
 router.patch('/:id', auth.manager, movieController.updateById);

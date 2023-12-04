@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
 import movieAPI from '@/app/api/movieAPI'
+import showtimeAPI from '@/app/api/showtimeAPI'
 import { useEffect,useState } from 'react'
 
 import styles from './Nowshowing.module.css'
@@ -15,6 +16,7 @@ export default function ListFilm () {
     pickMovies(MovieData.data);
 
     }
+
     
     useEffect(()=>{
         mov();
@@ -51,7 +53,7 @@ export default function ListFilm () {
                         <div className={styles.upper_text}>{movie.movieTitle}</div>
                         <button
                 className={`${styles.btn_more} ${styles.upper_text}`}
-                onClick={() => handleMovieClick(movie.showtimeId)} // Pass movie.showtimeId as an argument
+                onClick={() => handleMovieClick(movie.movieId._id)} // Pass movie.showtimeId as an argument
               >
                 Xem chi tiết
               </button>

@@ -3,7 +3,7 @@ const Schedule = require('../model/schedule');
 const BookedSeat = require('../model/bookedSeat');
 
 const ScreenController = {
-    getScreen: async (req, res) => {
+    getScreen: async(req, res) => {
         try {
             const { showtimeId, theatre, date, timeSlot } = req.query;
             const schedule = await Schedule.findOne({
@@ -12,11 +12,11 @@ const ScreenController = {
                 theatre,
                 time: { $in: [timeSlot] }
             });
-            
+
             if (!schedule) {
                 return res.status(400).json({ error: "Schedule does not exist" });
             }
-    
+
             let screen = await Screen.findOne({ scheduleId: schedule._id, time: timeSlot });
             if (!screen) {
                 screen = new Screen({
@@ -24,26 +24,26 @@ const ScreenController = {
                     time: timeSlot,
                     seatArray: Array.from({ length: 5 }, () => Array(8).fill(0)).concat([Array(4).fill(0)]),
                 });
-    
+
                 await screen.save();
             }
-    
+
             res.status(200).json(screen);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Error retrieving screen' });
         }
     },
-    
-    getScreenByScheduleIdAndTime: async (req, res) => {
+
+    getScreenByScheduleIdAndTime: async(req, res) => {
         try {
             const { scheduleId, time } = req.query;
-            
+
             const scheduleExists = await Schedule.findById(scheduleId);
             if (!scheduleExists) {
                 return res.status(404).json({ error: 'Schedule not found' });
             }
-            
+
             let screen = await Screen.findOne({ scheduleId, time });
             if (!screen) {
                 screen = new Screen({
@@ -51,18 +51,46 @@ const ScreenController = {
                     time,
                     seatArray: Array.from({ length: 5 }, () => Array(8).fill(0)).concat([Array(4).fill(0)]),
                 });
-    
+
                 await screen.save();
             }
-    
+
             res.status(200).json(screen);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Error retrieving screen' });
         }
     },
-    
-    setBookedSeat: async (req, res) => {
+
+    getScreenByScheduleId: async(req, res) => {
+        try {
+            const scheduleId = req.params.scheduleId;
+
+            const scheduleExists = await Schedule.findById(scheduleId);
+            if (!scheduleExists) {
+                return res.status(404).json({ error: 'Schedule not found' });
+            }
+
+            let screen = await Screen.findOne({ scheduleId });
+            if (!screen) {
+                const time = new Date();
+                screen = new Screen({
+                    scheduleId,
+                    time,
+                    seatArray: Array.from({ length: 5 }, () => Array(8).fill(0)).concat([Array(4).fill(0)]),
+                });
+
+                await screen.save();
+            }
+
+            res.status(200).json(screen);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Error retrieving screen' });
+        }
+    },
+
+    setBookedSeat: async(req, res) => {
         try {
             const screenId = req.params.screenId;
             const coordinates = req.body;
@@ -98,7 +126,7 @@ const ScreenController = {
         }
     },
 
-    deleteBookedSeat: async (req, res) => {
+    deleteBookedSeat: async(req, res) => {
         const bookedSeatId = req.params.bookedSeatId;
         try {
             await BookedSeat.findOneAndDelete(bookedSeatId);
@@ -109,7 +137,7 @@ const ScreenController = {
         }
     },
 
-    clearAllBookedSeatOfScreen: async (req, res) => {
+    clearAllBookedSeatOfScreen: async(req, res) => {
         try {
             const screenId = req.params.screenId;
 
@@ -134,7 +162,7 @@ const ScreenController = {
         }
     },
 
-    resetSeatArray: async (req, res) => {
+    resetSeatArray: async(req, res) => {
         try {
             const screenId = req.params.screenId;
             const screen = await Screen.findById(screenId);
