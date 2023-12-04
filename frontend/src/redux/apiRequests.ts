@@ -16,15 +16,15 @@ import {
   registerStart,
   registerSuccess,
 } from "./authSlice";
-// import {
-//   bookingStart,
-//     bookingFailed,
-//     bookingSuccess,
+import {
+  bookingStart,
+    bookingFailed,
+    bookingSuccess,
 
-//     deleteBookingStart,
-//     deleteBookingSuccess,
-//     deleteBookingFailed
-// } from "./bookingSlide"
+    deleteBookingStart,
+    deleteBookingSuccess,
+    deleteBookingFailed
+} from "./bookingSlice"
 // import {
 //   deleteUserFailed,
 //   deleteUsersSuccess,
@@ -38,18 +38,18 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 //import { NavigateFunction } from "react-router";
 //npm install axios
 
-// export const bookingMovie = async (data: any, dispatch: (arg0: { payload: any; type: "booking/bookingStart" | "booking/bookingSuccess" | "booking/bookingFailed"; }) => void,router: string[] | AppRouterInstance) => {
-//   dispatch(bookingStart());
-//   try {
+export const bookingMovie = async (data: any, dispatch: (arg0: { payload: any; type: "booking/bookingStart" | "booking/bookingSuccess" | "booking/bookingFailed"; }) => void,router: string[] | AppRouterInstance) => {
+  dispatch(bookingStart());
+  try {
  
-//     dispatch(bookingSuccess(data));
-//     router.push("/screen")
-//     return 1
-//   } catch (err) {
-//     dispatch(bookingFailed());
-//     console.log(err)
-//   }
-// };
+    dispatch(bookingSuccess(data));
+    router.push("/screen")
+    return 1
+  } catch (err) {
+    dispatch(bookingFailed());
+    console.log(err)
+  }
+};
 
 export const loginUser = async (user: any, dispatch: (arg0: { payload: any; type: "auth/loginStart" | "auth/loginSuccess" | "auth/loginFailed"; }) => void,router: string[] | AppRouterInstance) => {
   dispatch(loginStart());
