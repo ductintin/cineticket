@@ -266,7 +266,7 @@ export default function Film_manager ({params, searchParams}: Props) {
             theatre: data[i].theatre,
             time:  data[i].time}           
           try {
-            const respond = await showtimeAPI.postSchedule(schedata);
+            const respond = await showtimeAPI.postSchedule(schedata, token);
             toast.success('Thêm thành công!', toastOptions);
             const old=data.filter((element, index) => index !== i);
             setData(old)
