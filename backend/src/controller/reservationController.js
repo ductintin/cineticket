@@ -1,10 +1,10 @@
-const Reservation = require('../models/reservation');
-const Ticket = require('../models/ticket');
-const BookedSeat = require('../models/bookedSeat');
-const Screen = require('../models/screen');
-const Schedule = require('../models/schedule');
-const Movie = require('../models/movie');
-const Showtime = require('../models/showtime');
+const Reservation = require('../model/reservation');
+const Ticket = require('../model/ticket');
+const BookedSeat = require('../model/bookedSeat');
+const Screen = require('../model/screen');
+const Schedule = require('../model/schedule');
+const Movie = require('../model/movie');
+const Showtime = require('../model/showtime');
 
 const reservationController = {
   createReservation: async (req, res) => {

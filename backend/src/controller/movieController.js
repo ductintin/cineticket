@@ -1,5 +1,5 @@
-const Movie = require('../models/movie');
-const Showtime = require('../models/showtime');
+const Movie = require('../model/movie');
+const Showtime = require('../model/showtime');
 const fs = require('fs');
 
 const movieController = {

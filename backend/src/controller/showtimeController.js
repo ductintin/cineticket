@@ -1,6 +1,6 @@
-const Showtime = require('../models/showtime');
-const Movie = require('../models/movie');
-const Schedule = require('../models/schedule');
+const Showtime = require('../model/showtime');
+const Movie = require('../model/movie');
+const Schedule = require('../model/schedule');
 const getFormattedMovieTitle = require('../utils/getFormattedMovieTitle');
 const fs = require('fs');
 

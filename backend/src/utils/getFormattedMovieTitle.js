@@ -1,4 +1,4 @@
-const Movie = require('../models/movie');
+const Movie = require('../model/movie');
 
 const getFormattedMovieTitle = async (movieId) => {
   try {

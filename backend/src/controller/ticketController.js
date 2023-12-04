@@ -1,6 +1,6 @@
-const Reservation = require('../models/reservation');
-const Ticket = require('../models/ticket');
-const BookedSeat = require('../models/bookedSeat');
+const Reservation = require('../model/reservation');
+const Ticket = require('../model/ticket');
+const BookedSeat = require('../model/bookedSeat');
 
 const ticketController = {
     // createTicket: async (req, res) => {

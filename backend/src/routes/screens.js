@@ -1,6 +1,6 @@
 const express = require('express');
 
-const screenController = require('../controllers/screenController');
+const screenController = require('../controller/screenController');
 const auth = require('../middleware/auth');
 
 const router = new express.Router();

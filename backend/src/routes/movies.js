@@ -1,6 +1,6 @@
 const express = require('express');
 
-const movieController = require('../controllers/movieController');
+const movieController = require('../controller/movieController');
 const auth = require('../middleware/auth');
 const uploadImage = require('../utils/uploadImage');
 const uploadMiddleware = require('../utils/uploadMiddleware');

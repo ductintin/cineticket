@@ -1,6 +1,6 @@
-const Schedule = require('../models/schedule');
+const Schedule = require('../model/schedule');
 const Theatres = require('../utils/theatres');
-const Showtime = require('../models/showtime');
+const Showtime = require('../model/showtime');
 const fs = require('fs');
 
 const scheduleController = {

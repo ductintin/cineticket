@@ -1,6 +1,6 @@
 const express = require('express');
 const auth = require('../middleware/auth');
-const showtimeController = require('../controllers/showtimeController');
+const showtimeController = require('../controller/showtimeController');
 const uploadMiddleware = require('../utils/uploadMiddleware');
 const router = new express.Router();
 

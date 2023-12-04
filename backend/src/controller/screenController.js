@@ -1,6 +1,6 @@
-const Screen = require('../models/screen');
-const Schedule = require('../models/schedule');
-const BookedSeat = require('../models/bookedSeat');
+const Screen = require('../model/screen');
+const Schedule = require('../model/schedule');
+const BookedSeat = require('../model/bookedSeat');
 
 const ScreenController = {
     getScreen: async (req, res) => {

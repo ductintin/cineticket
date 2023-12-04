@@ -1,6 +1,6 @@
 const express = require('express');
 const uploadMiddleware = require('../utils/uploadMiddleware');
-const scheduleController = require('../controllers/scheduleController')
+const scheduleController = require('../controller/scheduleController')
 const auth = require('../middleware/auth')
 
 const router = new express.Router();
