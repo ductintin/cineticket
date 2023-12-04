@@ -12,6 +12,7 @@ router.get('/showtime/:showtimeId', scheduleController.getSchedulesByShowtime);
 router.get('/theatre/', auth.manager, scheduleController.getScheduleByTheatre);
 router.get('/:id', scheduleController.getByscheduleId);
 router.get('/', scheduleController.getByShowtimeIdAndDate);
+router.get('/get/:movieId', scheduleController.getAllByMovieIdAndDate);
 router.patch('/:id', auth.manager, scheduleController.updateById);
 router.delete('/:id', auth.manager, scheduleController.deleteById);
 router.post('/upload', auth.manager, uploadMiddleware, scheduleController.addScheduleFile);

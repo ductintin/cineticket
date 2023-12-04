@@ -2,10 +2,11 @@ const Schedule = require('../model/schedule');
 const Theatres = require('../utils/theatres');
 const Showtime = require('../model/showtime');
 const fs = require('fs');
+const Movie = require('../model/movie');
 
 const scheduleController = {
     // done and checked
-    addSchedule: async (req, res) => {
+    addSchedule: async(req, res) => {
         try {
             const { showtimeId, date, theatre, time } = req.body;
             const errors = [];
@@ -69,7 +70,7 @@ const scheduleController = {
 
 
     // done and checked
-    getByShowtimeIdAndDate: async (req, res) => {
+    getByShowtimeIdAndDate: async(req, res) => {
         try {
             const { showtimeId, date } = req.query; // Retrieve from req.query instead of req.body
 
@@ -90,7 +91,7 @@ const scheduleController = {
     },
 
     // done and checked
-    getByscheduleId: async (req, res) => {
+    getByscheduleId: async(req, res) => {
         try {
             const scheduleId = req.params.id;
             const schedules = await Schedule.find({ scheduleId });
@@ -101,7 +102,31 @@ const scheduleController = {
         }
     },
 
-    updateById: async (req, res) => {
+    getAllByMovieIdAndDate: async(req, res) => {
+        try {
+            const movieId = req.params.movieId;
+
+            const showtime = await Showtime.findOne({ movieId });
+            const showtimeId = showtime._id;
+
+            console.log(showtimeId);
+            const scheduleDate = new Date();
+            scheduleDate.setHours(scheduleDate.getHours() + 7); // Add GMT+7 offset
+            //scheduleDate.setHours(scheduleDate.getMonth() - 1); // Add GMT+7 offset
+
+            const schedules = await Schedule.find({
+                showtimeId,
+                date: { $gte: scheduleDate },
+            });
+
+            res.status(200).json(schedules);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: error });
+        }
+    },
+
+    updateById: async(req, res) => {
         const scheduleId = req.params.id;
         const updates = Object.keys(req.body);
         const allowedUpdates = [
@@ -130,7 +155,7 @@ const scheduleController = {
         }
     },
 
-    deleteById: async (req, res) => {
+    deleteById: async(req, res) => {
         try {
             const scheduleId = req.params.id;
             if (!scheduleId) {
@@ -148,7 +173,7 @@ const scheduleController = {
         }
     },
 
-    findTheatre: async (req, res) => {
+    findTheatre: async(req, res) => {
         try {
             const { showtimeId, theatre, date, timeSlot } = req.query;
             if (showtimeId && !theatre && !date && !timeSlot) {
@@ -176,7 +201,7 @@ const scheduleController = {
         }
     },
 
-    addScheduleFile: async (req, res) => {
+    addScheduleFile: async(req, res) => {
         try {
             const file = req.file;
             if (!file) {
@@ -202,7 +227,7 @@ const scheduleController = {
                 const existingSchedulesMsg = existingSchedules
                     .map(
                         (schedule) =>
-                            `Showtime ID ${schedule.showtimeId} already has a schedule on ${schedule.date} at ${schedule.theatre}`
+                        `Showtime ID ${schedule.showtimeId} already has a schedule on ${schedule.date} at ${schedule.theatre}`
                     )
                     .join(', ');
                 return res
@@ -233,7 +258,7 @@ const scheduleController = {
         }
     },
 
-    getAllSchedules: async (req, res) => {
+    getAllSchedules: async(req, res) => {
         try {
             const schedules = await Schedule.find();
             res.status(200).json(schedules);
@@ -243,7 +268,7 @@ const scheduleController = {
         }
     },
 
-    getSchedulesByShowtime: async (req, res) => {
+    getSchedulesByShowtime: async(req, res) => {
         try {
             const { showtimeId } = req.params;
             const schedules = await Schedule.find({ showtimeId });
@@ -254,7 +279,7 @@ const scheduleController = {
         }
     },
 
-    getSchedulesByDateRange: async (req, res) => {
+    getSchedulesByDateRange: async(req, res) => {
         try {
             const { start, end } = req.query;
             const startDate = new Date(start);
@@ -272,7 +297,7 @@ const scheduleController = {
         }
     },
 
-    getScheduleByTheatre: async (req, res) => {
+    getScheduleByTheatre: async(req, res) => {
         try {
             const { theatre, start, end } = req.query;
             const startDate = new Date(start);

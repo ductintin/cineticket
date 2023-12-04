@@ -15,6 +15,10 @@ const showtimeAPI = {
     const url =`${apiV1}/schedules/showtime/${id}`;
     return get (url,"");
   },
+  getShowTimebyMovieId: function (id: string){
+    const url =`${apiV1}/schedules/showtime/${id}`;
+    return get (url,"");
+  },
   quickbuy: function (showtimeId: string, theatre: string, date:string){
     const url =`${apiV1}/schedules/search/?showtimeId=${showtimeId}&theatre=${theatre}&date=${date}`
     return get(url, "")
@@ -30,6 +34,10 @@ const showtimeAPI = {
   postSchedule: function(data:any, token:string){
     const url = `${apiV1}/schedules/`
     return post(url, data, token)
+  },
+  getAllScheduleByMovieIdAnDate: function(movieId: string){
+    const url = `${apiV1}/schedules/get/${movieId}`
+    return get(url, "")
   }
 };
 

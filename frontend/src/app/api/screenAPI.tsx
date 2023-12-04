@@ -31,6 +31,10 @@ const screenAPI = {
     const url =`${apiV1}/screens/?showtimeId=${showtimeID}&theatre=${theatre}&date=${date}&timeSlot=${timeSlot}`;
     return get(url,token)
   },
+  getScreenByScheduleId: function (token: string, scheduleId: string) {
+    const url =`${apiV1}/screens/?scheduleId=${scheduleId}`;
+    return get(url,token)
+  },
   deleteBookedSeat: function(token: string, seatid: string){
     const url=`${apiV1}/screens/booked-seat/${seatid}`
     return delele(url, token)
