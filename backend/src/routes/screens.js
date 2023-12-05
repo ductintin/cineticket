@@ -7,7 +7,7 @@ const router = new express.Router();
 
 router.get('/', auth.user, screenController.getScreen);
 router.get('/schedule-time/', auth.user, screenController.getScreenByScheduleIdAndTime);
-router.get('/screen/:scheduleId', auth.user, screenController.getScreenByScheduleId);
+router.get('/schedule/:scheduleId', screenController.getScreenByScheduleId);
 router.post('/booked-seat/:screenId', auth.user, screenController.setBookedSeat);
 router.delete('/booked-seat/:bookedSeatId', auth.user, screenController.deleteBookedSeat);
 router.delete('/reset-seat/:screenId', auth.manager, screenController.resetSeatArray);

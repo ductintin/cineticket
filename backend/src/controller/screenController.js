@@ -65,12 +65,13 @@ const ScreenController = {
     getScreenByScheduleId: async(req, res) => {
         try {
             const scheduleId = req.params.scheduleId;
-
+            console.log(scheduleId);
             const scheduleExists = await Schedule.findById(scheduleId);
             if (!scheduleExists) {
                 return res.status(404).json({ error: 'Schedule not found' });
             }
 
+            console.log(scheduleExists)
             let screen = await Screen.findOne({ scheduleId });
             if (!screen) {
                 const time = new Date();
