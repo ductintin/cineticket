@@ -61,8 +61,9 @@ const movieController = {
 
         try {
             const movie = await Movie.findById(_id);
-            if (!movie) return res.status(404).json({eror: 'Movie does not exist'});
-            return res.status(200).json(movie);
+            const showtime = await Showtime.findOne({ movieId: movie._id });
+            const showtimeId = showtime ? showtime._id : null;
+            res.status(200).json({...movie.toObject(), showtimeId });
         } catch (e ) {
             return res.status(400).json({error: e.message});
         }

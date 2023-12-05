@@ -46,11 +46,11 @@ export default function Movies_Admin (){
                 <div className={styles.addmovie}>
                     <Link href={`/admin/movie/new`}><Image src={add_ad} alt="" width={15} height={15}/> Add movie</Link>
                 </div>
-                <div className={styles.timing}> Start:   </div>
-                <div className={styles.header__date}>31/07/2022</div>
-            
-                <div className={styles.timing}>End:      </div>
-                <div className={styles.header__date}>31/07/2022</div>
+                {/*<div className={styles.timing}> Start:   </div>*/}
+                {/*<div className={styles.header__date}>31/07/2022</div>*/}
+
+                {/*<div className={styles.timing}>End:      </div>*/}
+                {/*<div className={styles.header__date}>31/07/2022</div>*/}
       
             </div>
             {/* table */}
@@ -80,8 +80,8 @@ export default function Movies_Admin (){
                         <div className={styles.movies_table_col}>{movie.language.map((lang, index)=> index===movie.language.length-1?<>{lang} </>:<>{lang}, </> )}</div>
                         <div className={styles.movies_table_col}>{movie.rating}</div>
                         <div className={styles.movies_table_col}>
-                            <Link href={`/admin/movie/${movie.showtimeId}`}><Image src={edit} alt="" width={15} height={15}/></Link>
-                            <Image src = {create} alt =" " width={15} height={15} onClick={()=> handleCreateBtn(movie._id)}/>
+                            <Link href={`/admin/movie/${movie._id}`}><Image src={edit} alt="" width={15} height={15}/></Link>
+                            {/*<Image src = {create} alt =" " width={15} height={15} onClick={()=> handleCreateBtn(movie._id)}/>*/}
                         </div>
                     </div>
                    ))}

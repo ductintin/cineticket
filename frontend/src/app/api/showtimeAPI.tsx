@@ -7,6 +7,10 @@ const showtimeAPI = {
     const url =`${apiV1}/showtimes/`;
     return get(url,"");
   },
+  addShowtimes: function (data:any,token:string) {
+    const url =`${apiV1}/showtimes/`;
+    return post(url,data,token);
+  },
   getShowtime: function (id: string){
     const url =`${apiV1}/showtimes/id/${id}`;
     return get (url,"");
