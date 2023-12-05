@@ -49,6 +49,7 @@ type addShowTime={
 };
 
 type showTime ={
+  id:string;
   movieId:string;
   dateRange:{
     start: string;
@@ -72,7 +73,7 @@ type films = {
     __v: number;
     showtimeId:string;
 };
-  
+
 
 export default function Film_manager ({params, searchParams}: Props) {
 
@@ -82,18 +83,21 @@ export default function Film_manager ({params, searchParams}: Props) {
       const token=user?.token
       console.log('token ne ', token)
       const [films, setfilms] = useState<any>();
+      const [showtime, setShowtime] = useState<showTime>()
 
       const stt = async () => {
-        const res11= await movieAPI.getMovie(id, token)
+        const res11= await movieAPI.getMovie(id)
         setfilms(res11.data)
-        const res3= await showtimeAPI.getSchebyShowtime(films?.showtimeId)
+        const res3= await showtimeAPI.getSchebyShowtime(res11.data?.showtimeId)
         setAllSche(res3.data)
         setSche(res3.data.slice(0,5))
-      }    
+        const  res4 = await showtimeAPI.getShowtime(res11.data?.showtimeId)
+        setShowtime(res4.data)
+      }
       useEffect(()=>{
           stt();
       },[])
-        
+
 
       const toastOptionsError = {
         position: toast.POSITION.TOP_CENTER as ToastPosition,
@@ -109,9 +113,9 @@ export default function Film_manager ({params, searchParams}: Props) {
           fontWeight: '500',
         },
         icon: <FaTimes style={{color:'red'}}/>
-        
+
       };
-     
+
       const toastOptions = {
         position:  toast.POSITION.TOP_CENTER as ToastPosition,
         style: {
@@ -119,12 +123,12 @@ export default function Film_manager ({params, searchParams}: Props) {
 
           backgroundColor: '#8BFF92',
         },
-        autoClose: 2000, 
+        autoClose: 2000,
         hideProgressBar: false,
-        closeOnClick: true, // 
-        pauseOnHover: true, // 
-        draggable: true, // 
-        progress: undefined, 
+        closeOnClick: true, //
+        pauseOnHover: true, //
+        draggable: true, //
+        progress: undefined,
       };
 
       //PART 1
@@ -189,17 +193,17 @@ export default function Film_manager ({params, searchParams}: Props) {
           toast.success('Lỗi!', toastOptionsError);
         }
       };
-   
+
       //PART 2
       const [allsche, setAllSche] = useState<Schedule[]>([]);
       const [sche, setSche] = useState<Schedule[]>([]);
-       
+
         // NúT TRƯỚC
         const handleBefore = () => {
           let page=((allsche.indexOf(sche[0])+1-1)/5)-1
           if (page===-1) {
             console.log("da la trang dau")
-            return; 
+            return;
           }
           console.log('trang truoc: ', page)
           setSche(allsche.slice(0+page*5,5+page*5));
@@ -209,12 +213,12 @@ export default function Film_manager ({params, searchParams}: Props) {
           let page=~~(allsche.indexOf(sche[0])/5+1)
           if (page > ~~(allsche.length/5) || (page)*5==allsche.length){
             console.log("da la trang cuoi")
-            return; 
+            return;
           }
           console.log('page sau ne: ', page)
           setSche(allsche.slice(0+page*5,5+page*5));
         };
-        
+
 
         //PART 3
         const availableTimes = [
@@ -251,7 +255,7 @@ export default function Film_manager ({params, searchParams}: Props) {
           "23:00",
           "23:30",
           "00:00",
-          
+
         ];
         const [data, setData] = useState<addSchedule[]>([]);
 
@@ -279,13 +283,13 @@ export default function Film_manager ({params, searchParams}: Props) {
   const handleDeleteRow = (No: number) => {
           setData(prevData => prevData.filter(row => row.No !== No));
         };
-      
+
         const handleChangeField = (id: number, field: keyof addSchedule, value: any) => {
           setData(prevData =>
             prevData.map(row => (row.No === id ? { ...row, [field]: value } : row))
           );
           console.log('Change')
-        };  
+        };
 
         //Nút ADD ROW
         const handleAddRow = () => {
@@ -297,13 +301,13 @@ export default function Film_manager ({params, searchParams}: Props) {
         };
 
         //Nút SAVE
-        const handleSaveSche = async (No: number) => {   
-          const i = data.findIndex(item => item.No === No);    
+        const handleSaveSche = async (No: number) => {
+          const i = data.findIndex(item => item.No === No);
           const schedata= {
             date: data[i].date.replace(/-/g, "/"),
             showtimeId: id,
             theatre: data[i].theatre,
-            time:  data[i].time}           
+            time:  data[i].time}
           try {
             const respond = await showtimeAPI.postSchedule(schedata, token);
             toast.success('Thêm thành công!', toastOptions);
@@ -334,6 +338,23 @@ export default function Film_manager ({params, searchParams}: Props) {
             toast.success('Lỗi!', toastOptionsError);
           }
         };
+        const uploadImage = async (file: any) => {
+          const formData = new FormData();
+          formData.append('file', file);
+
+          try {
+            const response = await movieAPI.uploadImage(id,formData,token);
+            toast.success('Thêm thành công!', toastOptions);
+          } catch (error) {
+            toast.success('Lỗi!', toastOptionsError);
+          }
+        };
+      const handleFileChange = (event:any) => {
+        const file = event.target.files[0];
+        if (file) {
+          uploadImage(file);
+        }
+      };
 
     return (
     <div className={s.body}>
@@ -346,6 +367,11 @@ export default function Film_manager ({params, searchParams}: Props) {
                   <img src={films.image} alt="Mô tả ảnh"/>
             }
           </div>
+          return (
+          <div>
+            <input type="file" onChange={handleFileChange} />
+          </div>
+          );
         </div>
 
         <div className={s.rightcolumn}>
@@ -484,8 +510,8 @@ export default function Film_manager ({params, searchParams}: Props) {
           </div>
         </div>
 
-      
-   
+
+
         <Button variant="contained" startIcon={<EditIcon />} onClick={handleEditClick}>
           Edit
         </Button>
@@ -502,11 +528,20 @@ export default function Film_manager ({params, searchParams}: Props) {
 
           <TableHead>
             <TableRow>
-              <TableCell style={{ width: '20px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>No</TableCell>
+              <TableCell style={{ width: '20px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Id</TableCell>
               <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>StartDate</TableCell>
               <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>EndDate</TableCell>
+              <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Active</TableCell>
             </TableRow>
           </TableHead>
+          <TableBody>
+                <TableRow key={showtime?.id}>
+                  <TableCell style={{textAlign: 'center'}}>{showtime?.id}</TableCell>
+                  <TableCell style={{textAlign: 'center'}}>{showtime?.dateRange.start}</TableCell>
+                  <TableCell style={{textAlign: 'center'}}>{showtime?.dateRange.end}</TableCell>
+                  <TableCell style={{textAlign: 'center'}}>{showtime?.isActive.toString()}</TableCell>
+                </TableRow>
+          </TableBody>
 
           <TableBody>
             {data2.map(row => (
@@ -555,7 +590,7 @@ export default function Film_manager ({params, searchParams}: Props) {
         <div className={s.schedules}> All schedules </div>
         <TableContainer component={Paper}>
           <Table>
-            
+
             <TableHead>
               <TableRow>
                 <TableCell  style={{ width: '200px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center' }}>ID</TableCell>
@@ -588,7 +623,7 @@ export default function Film_manager ({params, searchParams}: Props) {
         <div className={s.schedules}> Add schedules </div>
         <TableContainer component={Paper}>
       <Table>
-        
+
         <TableHead>
           <TableRow>
           <TableCell style={{ width: '20px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>No</TableCell>
@@ -608,11 +643,11 @@ export default function Film_manager ({params, searchParams}: Props) {
                   className={s.input}
                   type="date"
                   min="2023-06-01" // Ngày tối thiểu cho phép chọn
-                  max="2024-06-30" // Ngày tối đa cho phép 
+                  max="2024-06-30" // Ngày tối đa cho phép
                   onChange={e => handleChangeField(row.No, 'date', e.target.value)}
                     />
               </TableCell>
-              
+
               <TableCell>
                 <Select
                   value={row.theatre || "Chọn rạp"}
@@ -628,7 +663,7 @@ export default function Film_manager ({params, searchParams}: Props) {
                   <MenuItem value="Happy Us Theatre Quận 5">Happy Us Theatre Quận 5</MenuItem>
               </Select>
               </TableCell>
-                
+
                 <TableCell>
                 <Select
                       multiple

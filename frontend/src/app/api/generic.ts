@@ -120,3 +120,28 @@ export const delele = function (url: string, token: string) {
       })
   );
 };
+
+const configUpload = (token: string) => {
+    return {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Tokens': `Bearer ${token}`,
+        },
+    };
+};
+
+export const postUpload = function (url: string, data: FormData, token: string) {
+    return new Promise<{ data: any }>((resolve, reject) =>
+        axios
+            .post(url, data, configUpload(token))
+            .then((res) => {
+                // Trả về dữ liệu
+                return resolve({ data: res.data });
+            })
+            .catch((err) => {
+                // Trả về thông báo lỗi
+                if (!err.response) return reject(err.message);
+                return reject(err.response.data.message);
+            })
+    );
+};

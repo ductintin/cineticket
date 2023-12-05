@@ -1,4 +1,4 @@
-import { apiV1, apiV1_user, get, post, put, patch, delele} from "./generic";
+import {apiV1, apiV1_user, get, post, put, patch, delele, postUpload} from "./generic";
 
 const movieAPI = {
   
@@ -21,6 +21,11 @@ const movieAPI = {
   getMovie: function (id: string){
     const url =`${apiV1}/movies/${id}`;
     return get (url,"");
+  },
+
+  uploadImage: function (id: string,data: FormData, token:string){
+    const url =`${apiV1}/movies/photo/${id}`;
+    return postUpload(url,data,token);
   },
  
   quickBuyTicket: function (query:string) {
