@@ -30,6 +30,10 @@ export default function MoviesPage({ params, searchParams }: Props) {
 
   const [movie, setMovie] = useState<movieInterface>();
   const [schedule, setSchedule] = useState<any[]>([]);
+  const currentTime = new Date();
+  const hours = currentTime.getHours();
+  const minutes = currentTime.getMinutes();
+  const time = hours +":" + minutes;
 
   const fetchMovie = async () => {
     const res = await movieAPI.getMovie(movieId);
@@ -292,18 +296,26 @@ export default function MoviesPage({ params, searchParams }: Props) {
           {schedule.map((sh, index) => (
             <div className={s.box} key={sh._id}>
               <div className={s.namett}>{sh.theatre}</div>
+              <div>{sh.date}</div>
               <div className={s.schedule}>
                 <div className={s.type}>2D - Phụ đề</div>
                 <div className={s.alltime}>
-                  {Q1.map((element, index) => (
-                    <div
-                      key={index}
-                      className={s.time}
+                  {sh.time.map((shh, i) => (
+                    <div 
+                    style={{
+                      border: time > shh ? "" : '1px solid #ccc',
+                      borderRadius: '4px',
+                      padding: '10px',
+                      margin: '10px',
+                      background : (time > shh) ? "#c5d3e0" : ""
+                    }}
+                      key={i}
+                      className={shh}
                       onClick={() =>
-                        handleClick("Happy Us Theatre Quận 1", element)
+                        time > shh ? {} : handleClick("Happy Us Theatre Quận 1", shh)
                       }
                     >
-                      {element}
+                      {shh}
                     </div>
                   ))}
                 </div>

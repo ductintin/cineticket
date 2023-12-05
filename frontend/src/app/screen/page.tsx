@@ -25,7 +25,7 @@ export default function Seat () {
   const [selectedDoubleSeats, setSelectedDoubleSeats] = useState<any[]>([]);
   const [isChoosingSeat, setIsChoosingSeat] =useState(1)
   const [time,setTime] = useState(searchParams.get('time')||"")
-  const [scheduleId, setScheduleID]= useState(searchParams.get('showtimeId')||"")
+  const [scheduleId, setScheduleID]= useState(searchParams.get('scheduleId')||"")
   const [seatArr, setSeatArr]= useState<any[]>([])
   const price =[50000,100000]
   const date = searchParams.get("date")||""
@@ -40,10 +40,10 @@ export default function Seat () {
   useEffect(() => {
     const fetchScreen = async () => {
 
-      const res = await screenAPI.getScreenByShowtime(user?.token,showtimeId, theatreName,date, time);
-      const data = await screenAPI.getScreenByScheduleId(user?.token, scheduleId);
-      setScreenInfo(res.data);
-      setSeatArr(res.data.seatArray);
+      //const res = await screenAPI.getScreenByShowtime(user?.token,showtimeId, theatreName,date, time);
+      const data = await screenAPI.getScreenByScheduleId(user?.token, "656dee6c1088fd99ae6caaf0");
+      setScreenInfo(data.data);
+      setSeatArr(data.data.seatArray);
 
       // selectedSeats?.forEach((element, index) => {
       //   if (res.data.seatArray[element[0]][element[1]]===1){
