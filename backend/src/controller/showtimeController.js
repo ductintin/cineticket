@@ -88,8 +88,9 @@ const showtimeController = {
     getUpcoming: async(req, res) => {
         try {
             const now = new Date();
+            console.log("date", now);
             const upcomingShowtimes = await Showtime.find({
-                'dateRange.end': { $gte: now },
+                'dateRange.start': { $gte: now },
                 isActive: true,
             }).populate('movieId');
 
@@ -97,6 +98,7 @@ const showtimeController = {
                 movieTitle: showtime.movieId.title,
                 movieImage: showtime.movieId.image,
                 showtimeId: showtime._id,
+                movieId: showtime.movieId
             }));
             res.status(200).json(upcomingMovies);
         } catch (error) {

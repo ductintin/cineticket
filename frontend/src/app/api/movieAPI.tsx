@@ -6,7 +6,7 @@ const movieAPI = {
     const url = `${apiV1}/showtimes/now-showing`;
     return get(url, "");
   },
-  geComingSoonMovies: function () {
+  getComingSoonMovies: function () {
     const url = `${apiV1}/showtimes/comingSoon`;
     return get(url, "");
   },

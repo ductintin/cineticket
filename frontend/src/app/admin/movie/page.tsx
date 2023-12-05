@@ -9,6 +9,8 @@ import { movieInterface } from "@/app/api/apiResponse";
 import movieAPI from "@/app/api/movieAPI";
 import { useSelector } from "react-redux";
 import  Link  from "next/link";
+import {visit} from "yaml/dist/parse/cst-visit";
+import itemAtPath = visit.itemAtPath;
 
 
 export default function Movies_Admin (){
@@ -24,6 +26,25 @@ export default function Movies_Admin (){
     const handleCreateBtn=(id: string)=>{
 
     }
+    const handleClick=async (index: number) => {
+        setTabidx(index)
+        switch (index) {
+            case 0:
+                const res = await movieAPI.getAllMovies(user?.token);
+                setMovies(res.data)
+                break;
+            case 1:
+                const res1 = await movieAPI.getNowShowingMovies();
+                // @ts-ignore
+                setMovies(res1.data.map(item=> item.movieId))
+                break;
+            case 2:
+                const res3 = await movieAPI.getUpComingMovies();
+                // @ts-ignore
+                setMovies(res3.data.map(item=> item.movieId))
+                break;
+        }
+    }
         useEffect(()=>{
         fetchMovies()
     },[])
@@ -31,7 +52,7 @@ export default function Movies_Admin (){
     <div>
         <div className={styles.navbar}>
             <ul className={styles.nav_list}>
-                {tabname.map((e, index)=> e===tabname[tabidx]?(<li className={styles.nav_item_curr} >{e}</li>): (<li className={styles.nav_item} onClick={()=>setTabidx(index)}>{e}</li>))}
+                {tabname.map((e, index)=> e===tabname[tabidx]?(<li className={styles.nav_item_curr} >{e}</li>): (<li className={styles.nav_item} onClick={()=>handleClick(index)}>{e}</li>))}
               
             </ul>
             <div className={styles.search_bar_nav}>
