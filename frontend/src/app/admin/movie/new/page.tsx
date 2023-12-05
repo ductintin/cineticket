@@ -20,6 +20,7 @@ import showtimeAPI from '@/app/api/showtimeAPI';
 import DatePicker from '@mui/lab/DatePicker';
 import { format } from 'date-fns'; // Import thư viện date-fns để định dạng ngày tháng
 import { showtimeInterface } from '@/app/api/apiResponse';
+import { useRouter } from 'next/navigation'
 
 
 type Props = {
@@ -55,6 +56,7 @@ type films = {
     rating: number;
     __v: number;
 };
+
   
 
 export default function Film_manager ({params, searchParams}: Props) {
@@ -65,6 +67,7 @@ export default function Film_manager ({params, searchParams}: Props) {
       const token=user?.token
       console.log('token ne ', token)
       const [films, setfilms] = useState<any>({});
+      const router = useRouter();
 
       const stt = async () => {
         const res11= await showtimeAPI.getShowtime(id)
@@ -167,9 +170,11 @@ export default function Film_manager ({params, searchParams}: Props) {
         console.log('movie data ', moviedata)
         try {
           const respond = await movieAPI.createMovie( token,moviedata);
+          await router.push(`/admin/movie/${respond.data?.movie._id}`);
           toast.success('Tạo movie thành công!', toastOptions);
         } catch (error) {
-          toast.success('Lỗi!', toastOptionsError);
+          // @ts-ignore
+            toast.success('Lỗi!', toastOptionsError);
         }
       };
    

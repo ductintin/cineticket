@@ -84,10 +84,12 @@ export default function Film_manager ({params, searchParams}: Props) {
       console.log('token ne ', token)
       const [films, setfilms] = useState<any>();
       const [showtime, setShowtime] = useState<showTime>()
+      const [selectedImage, setSelectedImage] = useState(null);
 
       const stt = async () => {
         const res11= await movieAPI.getMovie(id)
         setfilms(res11.data)
+        setSelectedImage(res11.data?.image)
         const res3= await showtimeAPI.getSchebyShowtime(res11.data?.showtimeId)
         setAllSche(res3.data)
         setSche(res3.data.slice(0,5))
@@ -305,13 +307,14 @@ export default function Film_manager ({params, searchParams}: Props) {
           const i = data.findIndex(item => item.No === No);
           const schedata= {
             date: data[i].date.replace(/-/g, "/"),
-            showtimeId: id,
+            showtimeId: films?.showtimeId,
             theatre: data[i].theatre,
             time:  data[i].time}
           try {
             const respond = await showtimeAPI.postSchedule(schedata, token);
             toast.success('Thêm thành công!', toastOptions);
             const old=data.filter((element, index) => index !== i);
+            setSche((sche) => [...sche, respond.data]);
             setData(old)
           } catch (error) {
             toast.success('Lỗi!', toastOptionsError);
@@ -334,6 +337,13 @@ export default function Film_manager ({params, searchParams}: Props) {
             toast.success('Thêm thành công!', toastOptions);
             const old=data.filter((element, index) => index !== i);
             setData(old)
+            setShowtime(respond.data)
+            setData2(prevData => prevData.filter(row => row.No !== No));
+            // @ts-ignore
+            setfilms((films) => ({
+              ...films,
+              showtimeId: respond.data?._id,
+            }));
           } catch (error) {
             toast.success('Lỗi!', toastOptionsError);
           }
@@ -344,6 +354,7 @@ export default function Film_manager ({params, searchParams}: Props) {
 
           try {
             const response = await movieAPI.uploadImage(id,formData,token);
+            setSelectedImage(response.data?.image)
             toast.success('Thêm thành công!', toastOptions);
           } catch (error) {
             toast.success('Lỗi!', toastOptionsError);
@@ -362,16 +373,16 @@ export default function Film_manager ({params, searchParams}: Props) {
         <div className={s.leftcolumn}>
           <div className={s.a1}>
             {
-              (!films ) ?
+              (selectedImage == null) ?
                   <div></div>:
-                  <img src={films.image} alt="Mô tả ảnh"/>
+                  <img src={selectedImage} alt="Mô tả ảnh"/>
             }
           </div>
-          return (
+          {/*return (*/}
           <div>
             <input type="file" onChange={handleFileChange} />
           </div>
-          );
+          {/*);*/}
         </div>
 
         <div className={s.rightcolumn}>
@@ -610,94 +621,78 @@ export default function Film_manager ({params, searchParams}: Props) {
                 </TableRow>
               ))}
             </TableBody>
+            <TableBody>
+              {data.map(row => (
+                  <TableRow key={row.No}>
+                    <TableCell style={{textAlign: 'center'}}>{row.No}</TableCell>
+
+                    <TableCell>
+                      <input
+                          className={s.input}
+                          type="date"
+                          min="2023-06-01" // Ngày tối thiểu cho phép chọn
+                          max="2024-06-30" // Ngày tối đa cho phép
+                          onChange={e => handleChangeField(row.No, 'date', e.target.value)}
+                      />
+                    </TableCell>
+
+                    <TableCell>
+                      <Select
+                          value={row.theatre || "Chọn rạp"}
+                          onChange={e => handleChangeField(row.No, 'theatre', e.target.value)}
+                      >
+                        <MenuItem value="Chọn rạp" disabled>
+                          Chọn rạp
+                        </MenuItem>
+                        <MenuItem value="Happy Us Theatre Quận 1">Happy Us Theatre Quận 1</MenuItem>
+                        <MenuItem value="Happy Us Theatre Quận 2">Happy Us Theatre Quận 2</MenuItem>
+                        <MenuItem value="Happy Us Theatre Quận 3">Happy Us Theatre Quận 3</MenuItem>
+                        <MenuItem value="Happy Us Theatre Quận 4">Happy Us Theatre Quận 4</MenuItem>
+                        <MenuItem value="Happy Us Theatre Quận 5">Happy Us Theatre Quận 5</MenuItem>
+                      </Select>
+                    </TableCell>
+
+                    <TableCell>
+                      <Select
+                          multiple
+                          value={row.time || ["a"]}
+                          onChange={e => handleChangeField(row.No, 'time', e.target.value)}
+                      >
+                        <MenuItem disabled value={["a"]} >
+                          Chọn giờ
+                        </MenuItem>
+                        {availableTimes.map(time => (
+                            <MenuItem key={time} value={time}>{time}</MenuItem>
+                        ))}
+                      </Select>
+
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => handleSaveSche(row.No)}>
+                        Save
+                      </Button>
+                    </TableCell>
+
+                    <TableCell>
+                      <IconButton onClick={() => handleDeleteRow(row.No)} aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+              ))}
+            </TableBody>
           </Table>
         </TableContainer>
 
-        <Button className= {s.edit} variant="contained" startIcon={<BeforeIcon />} onClick={handleBefore}>
-          BEFORE
-        </Button>
-        <Button className= {s.edit} variant="contained" startIcon={<NextIcon />} onClick={handleNext}>
-        NEXT
-        </Button>
-
-        <div className={s.schedules}> Add schedules </div>
-        <TableContainer component={Paper}>
-      <Table>
-
-        <TableHead>
-          <TableRow>
-          <TableCell style={{ width: '20px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>No</TableCell>
-            <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Date</TableCell>
-            <TableCell  style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center' }}>Theatre</TableCell>
-            <TableCell  style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Time</TableCell>
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-          {data.map(row => (
-            <TableRow key={row.No}>
-              <TableCell style={{textAlign: 'center'}}>{row.No}</TableCell>
-
-              <TableCell>
-                  <input
-                  className={s.input}
-                  type="date"
-                  min="2023-06-01" // Ngày tối thiểu cho phép chọn
-                  max="2024-06-30" // Ngày tối đa cho phép
-                  onChange={e => handleChangeField(row.No, 'date', e.target.value)}
-                    />
-              </TableCell>
-
-              <TableCell>
-                <Select
-                  value={row.theatre || "Chọn rạp"}
-                  onChange={e => handleChangeField(row.No, 'theatre', e.target.value)}
-                >
-                  <MenuItem value="Chọn rạp" disabled>
-                    Chọn rạp
-                  </MenuItem>
-                  <MenuItem value="Happy Us Theatre Quận 1">Happy Us Theatre Quận 1</MenuItem>
-                  <MenuItem value="Happy Us Theatre Quận 2">Happy Us Theatre Quận 2</MenuItem>
-                  <MenuItem value="Happy Us Theatre Quận 3">Happy Us Theatre Quận 3</MenuItem>
-                  <MenuItem value="Happy Us Theatre Quận 4">Happy Us Theatre Quận 4</MenuItem>
-                  <MenuItem value="Happy Us Theatre Quận 5">Happy Us Theatre Quận 5</MenuItem>
-              </Select>
-              </TableCell>
-
-                <TableCell>
-                <Select
-                      multiple
-                      value={row.time || ["a"]}
-                      onChange={e => handleChangeField(row.No, 'time', e.target.value)}
-                    >
-                       <MenuItem disabled value={["a"]} >
-                        Chọn giờ
-                      </MenuItem>
-                      {availableTimes.map(time => (
-                        <MenuItem key={time} value={time}>{time}</MenuItem>
-                      ))}
-                    </Select>
-
-                  </TableCell>
-                  <TableCell>
-                  <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => handleSaveSche(row.No)}>
-                            Save
-                          </Button>
-              </TableCell>
-
-              <TableCell>
-                <IconButton onClick={() => handleDeleteRow(row.No)} aria-label="delete">
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+        {/*<Button className= {s.edit} variant="contained" startIcon={<BeforeIcon />} onClick={handleBefore}>*/}
+        {/*  BEFORE*/}
+        {/*</Button>*/}
+        {/*<Button className= {s.edit} variant="contained" startIcon={<NextIcon />} onClick={handleNext}>*/}
+        {/*NEXT*/}
+        {/*</Button>*/}
       <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleAddRow}>
         Add Row
       </Button>
-    </TableContainer>
       <ToastContainer />
     </div>
     );

@@ -164,78 +164,78 @@ export default function Schedule_Admin (){
     </tr>
   </thead>
   <tbody>
-    {/** add schedule row */}
+{/*    /!** add schedule row *!/*/}
 
-      {
-        newtimes.map((etimes, idxtimes)=>(
-          <tr key="">
-            {
-              true?(
-            <>
-              {/* stt */}
-              <td ></td>
+{/*      {*/}
+{/*        newtimes.map((etimes, idxtimes)=>(*/}
+{/*          <tr key="">*/}
+{/*            {*/}
+{/*              true?(*/}
+{/*            <>*/}
+{/*              /!* stt *!/*/}
+{/*              <td ></td>*/}
 
-              {/* name */}
-              <td >
-                {/* <label htmlFor="">Choose movie</label> */}
-                <select name="movies" id="movies" onChange={handleMovieChange}>
-                <option value="" hidden>Chọn phim</option> 
-                  {Schedules.map((movie: any)=> (
-                    <option key = {movie}>{ movie.movieName}</option>
-                  ))}
-                </select>
-              </td>
-              {/* start date */}
-              <td ><input className={styles.input} value={newsch_startDate} onChange={(e)=>handleStartDateChange( e.target.value)} type="date"/></td>
-              {/* end date */}
-              <td ><input  className={styles.input} value={newsch_endDate} onChange={(e)=>handleEndDateChange( e.target.value)} type="date"/></td>
-            </>
-              ):null}
-              {/* date */}
+{/*              /!* name *!/*/}
+{/*              <td >*/}
+{/*                /!* <label htmlFor="">Choose movie</label> *!/*/}
+{/*                <select name="movies" id="movies" onChange={handleMovieChange}>*/}
+{/*                <option value="" hidden>Chọn phim</option> */}
+{/*                  {Schedules.map((movie: any)=> (*/}
+{/*                    <option key = {movie}>{ movie.movieName}</option>*/}
+{/*                  ))}*/}
+{/*                </select>*/}
+{/*              </td>*/}
+{/*              /!* start date *!/*/}
+{/*              <td ><input className={styles.input} value={newsch_startDate} onChange={(e)=>handleStartDateChange( e.target.value)} type="date"/></td>*/}
+{/*              /!* end date *!/*/}
+{/*              <td ><input  className={styles.input} value={newsch_endDate} onChange={(e)=>handleEndDateChange( e.target.value)} type="date"/></td>*/}
+{/*            </>*/}
+{/*              ):null}*/}
+{/*              /!* date *!/*/}
 
-                  <td >
-                    <input value={newsch_times} onChange={(e)=> handleDayRowChange(idxtimes, e)} className={styles.input} type="text"/>   
-                  </td>
-                  <td className={styles.add_sheet}> <select name="theatres" id="theatres" onChange={handleTheatreChange}>
-                  <option value="" hidden>Chọn Rạp</option> 
-                      {Cinema.map((theatre: any) => (
-                        <option key={theatre}>{theatre}</option>
-                      ))} </select>
-                    {/* {idxtimes !== newtimes.length - 1 ? (
-                      <></>
-                    ) : (
-                      <Image
-                        src={add_ad} onClick={handleIncreaseDays} alt="" className={styles.add_row_img} width={20} height={20}/>
-                    )} */}
-                  </td>
-  
-          
-          <td className= {styles.add_sheet}> 
+{/*                  <td >*/}
+{/*                    <input value={newsch_times} onChange={(e)=> handleDayRowChange(idxtimes, e)} className={styles.input} type="text"/>   */}
+{/*                  </td>*/}
+{/*                  <td className={styles.add_sheet}> <select name="theatres" id="theatres" onChange={handleTheatreChange}>*/}
+{/*                  <option value="" hidden>Chọn Rạp</option> */}
+{/*                      {Cinema.map((theatre: any) => (*/}
+{/*                        <option key={theatre}>{theatre}</option>*/}
+{/*                      ))} </select>*/}
+{/*                    /!* {idxtimes !== newtimes.length - 1 ? (*/}
+{/*                      <></>*/}
+{/*                    ) : (*/}
+{/*                      <Image*/}
+{/*                        src={add_ad} onClick={handleIncreaseDays} alt="" className={styles.add_row_img} width={20} height={20}/>*/}
+{/*                    )} *!/*/}
+{/*                  </td>*/}
+{/*  */}
+{/*          */}
+{/*          <td className= {styles.add_sheet}> */}
 
-          
-          <ul>
-          {newTime[idxtimes]?.map((etime, idxtime) => (
-            <li key={idxtime} id={`${idxtimes}-${idxtime}`}>
-              <input
-                value={etime}
-                onChange={(e) => handleTimeChange(idxtimes, idxtime, e.target.value)}
-                key={idxtime}
-              />
-              {idxtime !== newTime[idxtimes].length - 1 ? (
-                <></>
-              ) : (
-                <Image
-                  src={add_ad}onClick={() => handleIncreaseTime(idxtimes)} alt="" className={styles.add_row_img} width={20} height={20}/>
-              )}
-            </li>
-          ))}
-</ul>
-          </td>
-          <td><button onClick={handleSaveAddingButton}>Save</button></td>
-        </tr>
-        )
-        )
-      }
+{/*          */}
+{/*          <ul>*/}
+{/*          {newTime[idxtimes]?.map((etime, idxtime) => (*/}
+{/*            <li key={idxtime} id={`${idxtimes}-${idxtime}`}>*/}
+{/*              <input*/}
+{/*                value={etime}*/}
+{/*                onChange={(e) => handleTimeChange(idxtimes, idxtime, e.target.value)}*/}
+{/*                key={idxtime}*/}
+{/*              />*/}
+{/*              {idxtime !== newTime[idxtimes].length - 1 ? (*/}
+{/*                <></>*/}
+{/*              ) : (*/}
+{/*                <Image*/}
+{/*                  src={add_ad}onClick={() => handleIncreaseTime(idxtimes)} alt="" className={styles.add_row_img} width={20} height={20}/>*/}
+{/*              )}*/}
+{/*            </li>*/}
+{/*          ))}*/}
+{/*</ul>*/}
+{/*          </td>*/}
+{/*          <td><button onClick={handleSaveAddingButton}>Save</button></td>*/}
+{/*        </tr>*/}
+{/*        )*/}
+{/*        )*/}
+{/*      }*/}
      
     {/* ))
   ))} */}

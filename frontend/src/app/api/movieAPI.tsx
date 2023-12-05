@@ -18,6 +18,10 @@ const movieAPI = {
     const url =`${apiV1}/movies/`;
     return get(url,token);
   },
+  createMovie: function (token: string, data:any) {
+    const url =`${apiV1}/movies/`;
+    return post(url,data,token);
+  },
   getMovie: function (id: string){
     const url =`${apiV1}/movies/${id}`;
     return get (url,"");
