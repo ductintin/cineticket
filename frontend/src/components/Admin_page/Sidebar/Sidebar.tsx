@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "@/redux/apiRequests";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from 'react';
 import { log } from "console";
 export default function Sidebar (){
     const dispatch =useDispatch()
@@ -16,6 +17,27 @@ export default function Sidebar (){
         logOut(dispatch,user?.user?._id,user?.token, axios,router)
     }
 
+
+    const [activeMenu, setActiveMenu] = useState("movies");
+
+    const handleMenuClick = (menuName:any) => {
+        setActiveMenu(menuName);
+        switch (menuName) {
+            case 'dashboard':
+                router.push("/admin/dashboard");
+                break;
+            case 'movies':
+                router.push("/admin/movie");
+                break;
+            case 'schedules':
+                router.push("/admin/schedule");
+                break;
+            // Thêm các trường hợp khác nếu cần
+            default:
+                break;
+        }
+    };
+
     return(
         <div className={styles.sidebar}>
             <div className={styles.header}>
@@ -23,30 +45,23 @@ export default function Sidebar (){
                 US Happy 
             </div>
             <div className={styles.menu}>
-                <div className={styles.menu_item}>
-                    <Image  className={styles.icon} width={30}height={30}src={home_ad} alt=""/>
-                    Dashboard</div>
-                <div className={`${styles.menu_item} ${styles.menu_item_focus_custom}`} onClick={()=>router.push("/admin/movie")}>
-                    <Image  className={styles.icon} width={30}height={30}src={movie_ad} alt=""/>
-                    Movies</div>
-                <div className={styles.menu_item} onClick={()=>router.push("/admin/schedule")}>
-                    <Image  className={styles.icon} width={30}height={30}src={person_ad}  alt=""/>
-                    Schedules</div>
-                <div className={styles.menu_item}>
-                    <Image  className={styles.icon} width={30}height={30}src={msg_ad} alt=""/>
-                    Messages</div>
-                <div className={styles.menu_item}>
-                    <Image  className={styles.icon} width={30}height={30}src={setting_ad} alt=""/>
-                    Settings</div>
-                <div className={styles.menu_item}>
-                    <Image  className={styles.icon} width={30}height={30}src={pwd_ad} alt=""/>
-                    Password</div>
-                <div className={styles.menu_item}>
-                    <Image  className={styles.icon} width={30}height={30}src={help_ad} alt=""/>
-                    Help</div>
-                <div className={styles.menu_item} onClick={()=>handleSignoutBtn()}>
-                    <Image  className={styles.icon} width={30}height={30}src={signout_ad} alt=""/>
-                    Sign out</div>
+                {/*<div className={`${styles.menu_item} ${activeMenu === 'dashboard' ? styles.menu_item_focus_custom : ''}`} onClick={() => handleMenuClick('dashboard')}>*/}
+                {/*    <Image className={styles.icon} width={30} height={30} src={home_ad} alt="" />*/}
+                {/*    Dashboard*/}
+                {/*</div>*/}
+                <div className={`${styles.menu_item} ${activeMenu === 'movies' ? styles.menu_item_focus_custom : ''}`} onClick={() => handleMenuClick('movies')}>
+                    <Image className={styles.icon} width={30} height={30} src={movie_ad} alt="" />
+                    Movies
+                </div>
+                <div className={`${styles.menu_item} ${activeMenu === 'schedules' ? styles.menu_item_focus_custom : ''}`} onClick={() => handleMenuClick('schedules')}>
+                    <Image className={styles.icon} width={30} height={30} src={person_ad} alt="" />
+                    Schedules
+                </div>
+                {/* Thêm các mục menu khác tương tự */}
+                <div className={`${styles.menu_item}`} onClick={() => handleSignoutBtn()}>
+                    <Image className={styles.icon} width={30} height={30} src={signout_ad} alt="" />
+                    Sign out
+                </div>
             </div>
         </div>
     )
