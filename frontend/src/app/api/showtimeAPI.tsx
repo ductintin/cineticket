@@ -19,6 +19,10 @@ const showtimeAPI = {
     const url =`${apiV1}/schedules/showtime/${id}`;
     return get (url,"");
   },
+  updateShowtime: function (id: string | undefined, token: string, data: any){
+    const url =`${apiV1}/showtimes/${id}`;
+    return patch (url,data,token);
+  },
   getShowTimebyMovieId: function (id: string){
     const url =`${apiV1}/schedules/showtime/${id}`;
     return get (url,"");

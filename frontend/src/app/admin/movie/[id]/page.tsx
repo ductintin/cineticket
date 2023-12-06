@@ -85,6 +85,8 @@ export default function Film_manager ({params, searchParams}: Props) {
       const [films, setfilms] = useState<any>();
       const [showtime, setShowtime] = useState<showTime>()
       const [selectedImage, setSelectedImage] = useState(null);
+      const [isEditShowtime, setIsEditShowtime] =useState(false);
+      const today = new Date().toISOString().split('T')[0];
 
       const stt = async () => {
         const res11= await movieAPI.getMovie(id)
@@ -265,6 +267,7 @@ export default function Film_manager ({params, searchParams}: Props) {
 
         const handleDeleteRowShowTime = (No: number) => {
           setData2(prevData => prevData.filter(row => row.No !== No));
+          setIsEditShowtime(false);
         };
 
         const handleChangeFieldShowTime = (id: number, field: keyof addShowTime, value: any) => {
@@ -323,7 +326,7 @@ export default function Film_manager ({params, searchParams}: Props) {
 
         const handleSaveShowTime = async (No: number) => {
           const i = data2.findIndex(item => item.No === No);
-          const showtime= {
+          const showtime2= {
             movieId: id,
             dateRange:{
               start: data2[i].startDate.replace(/-/g, "/"),
@@ -332,18 +335,44 @@ export default function Film_manager ({params, searchParams}: Props) {
             isActive: true,
             url:"joker"
           }
+          const showtime3= {
+            movieId: id,
+            dateRange:{
+              start: data2[i].startDate.replace(/-/g, "/"),
+              end:data2[i].endDate.replace(/-/g, "/"),
+            },
+            isActive: true,
+          }
           try {
-            const respond = await showtimeAPI.addShowtimes(showtime, token);
-            toast.success('Thêm thành công!', toastOptions);
-            const old=data.filter((element, index) => index !== i);
-            setData(old)
-            setShowtime(respond.data)
-            setData2(prevData => prevData.filter(row => row.No !== No));
-            // @ts-ignore
-            setfilms((films) => ({
-              ...films,
-              showtimeId: respond.data?._id,
-            }));
+            if(!isEditShowtime){
+              const respond = await showtimeAPI.addShowtimes(showtime2, token);
+              toast.success('Thêm thành công!', toastOptions);
+              const old=data.filter((element, index) => index !== i);
+              setData(old)
+              setShowtime(respond.data)
+              // @ts-ignore
+              setShowtime((showtime)=>({
+                ...showtime,
+                id:respond.data._id,
+              }));
+              setData2(prevData => prevData.filter(row => row.No !== No));
+              // @ts-ignore
+              setfilms((films) => ({
+                ...films,
+                showtimeId: respond.data?._id,
+              }));
+            }else{
+              const res = await  showtimeAPI.updateShowtime(showtime?.id, token, showtime3)
+              setShowtime(res.data)
+              // @ts-ignore
+              setShowtime((showtime)=>({
+                ...showtime,
+                id:res.data._id,
+              }));
+              toast.success('Update thành công!', toastOptions);
+              setData2(prevData => prevData.filter(row => row.No !== No));
+            }
+
           } catch (error) {
             toast.success('Lỗi!', toastOptionsError);
           }
@@ -365,6 +394,24 @@ export default function Film_manager ({params, searchParams}: Props) {
         if (file) {
           uploadImage(file);
         }
+      };
+
+      const handleEditShowTime = (showtime:any)=>{
+          handleAddRowShowTime();
+          setIsEditShowtime(true);
+      };
+
+      function convertToDateTime(dateString: string){
+        console.log("aaaaa", dateString)
+        const isoDate = new Date(dateString);
+        const day = isoDate.getDate().toString().padStart(2, '0');
+        const month = (isoDate.getMonth() + 1).toString().padStart(2, '0');
+        const year = isoDate.getFullYear();
+
+        const date = `${month}/${day}/${year}`
+        const parts = date.split('/');
+        const formattedDate = `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+        return formattedDate;
       };
 
     return (
@@ -545,14 +592,20 @@ export default function Film_manager ({params, searchParams}: Props) {
               <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Active</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-                <TableRow key={showtime?.id}>
-                  <TableCell style={{textAlign: 'center'}}>{showtime?.id}</TableCell>
-                  <TableCell style={{textAlign: 'center'}}>{showtime?.dateRange.start}</TableCell>
-                  <TableCell style={{textAlign: 'center'}}>{showtime?.dateRange.end}</TableCell>
-                  <TableCell style={{textAlign: 'center'}}>{showtime?.isActive.toString()}</TableCell>
-                </TableRow>
-          </TableBody>
+          {
+            showtime != null ? (
+                <TableBody>
+              <TableRow key={showtime?.id}>
+                <TableCell style={{textAlign: 'center'}}>{showtime?.id}</TableCell>
+                <TableCell style={{textAlign: 'center'}}>{showtime?.dateRange.start}</TableCell>
+                <TableCell style={{textAlign: 'center'}}>{showtime?.dateRange.end}</TableCell>
+                <TableCell style={{textAlign: 'center'}}>{showtime?.isActive.toString()}</TableCell>
+                <TableCell style={{textAlign: 'center'}}><IconButton onClick={() => handleEditShowTime(showtime)} aria-label="delete">
+                  <EditIcon />
+                </IconButton></TableCell>
+              </TableRow>
+            </TableBody>) : (<p>Chưa có lịch chiếu</p>)
+          }
 
           <TableBody>
             {data2.map(row => (
@@ -565,6 +618,7 @@ export default function Film_manager ({params, searchParams}: Props) {
                         type="date"
                         min="2023-06-01" // Ngày tối thiểu cho phép chọn
                         max="2024-06-30" // Ngày tối đa cho phép
+                        // value = {isEditShowtime? convertToDateTime(showtime?.dateRange.start as string) : ''}
                         onChange={e => handleChangeFieldShowTime(row.No, 'startDate', e.target.value)}
                     />
                   </TableCell>
@@ -574,6 +628,7 @@ export default function Film_manager ({params, searchParams}: Props) {
                         type="date"
                         min="2023-06-01" // Ngày tối thiểu cho phép chọn
                         max="2024-06-30" // Ngày tối đa cho phép
+                        // value = {isEditShowtime? convertToDateTime(showtime?.dateRange.end as string) : ''}
                         onChange={e => handleChangeFieldShowTime(row.No, 'endDate', e.target.value)}
                     />
                   </TableCell>
@@ -593,6 +648,7 @@ export default function Film_manager ({params, searchParams}: Props) {
             ))}
           </TableBody>
         </Table>
+        {/*style={{ display: shouldDisplay ? 'block' : 'none' }}*/}
         <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleAddRowShowTime}>
           Add Row
         </Button>
@@ -615,7 +671,11 @@ export default function Film_manager ({params, searchParams}: Props) {
               {sche.map(row => (
                 <TableRow key={row._id}>
                   <TableCell style={{textAlign: 'center'}}>{row._id}</TableCell>
-                  <TableCell style={{textAlign: 'center'}}>{row.date}</TableCell>
+                  <TableCell style={{textAlign: 'center'}}>{(() => {
+                    // @ts-ignore
+                    const variable = new Date(row.date);
+                    return variable.getDate() + "/" + (variable.getMonth()+ 1) + "/" + variable.getFullYear();
+                  })()}</TableCell>
                   <TableCell style={{textAlign: 'center'}}>{row.theatre}</TableCell>
                   <TableCell style={{textAlign: 'center'}}>{row.time.join(", ")}</TableCell>
                 </TableRow>
