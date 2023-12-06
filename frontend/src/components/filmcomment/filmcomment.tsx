@@ -9,7 +9,7 @@ export default function filmcomment () {
         <div className={s.container}>
             <div className={s.column}>
                 <h2 className={s.h2}> 
-                    <a className={s.a1} href="https://www.galaxycine.vn/binh-luan-phim">BÌNH LUẬN PHIM</a>
+                    <a className={s.a1} href="https://www.galaxycine.vn/binh-luan-phim" >BÌNH LUẬN PHIM</a>
                 </h2>
                 <div className={s.box}>
                     <div className={s.imagewrapper}>

@@ -78,43 +78,50 @@ export default function User (){
                         </div>
                         </div>
                 </div>
-                <Image className={styles.pic} src={movie_img} alt='er'></Image>
+                {/*<Image className={styles.pic} src={movie_img} alt='er'></Image>*/}
             </div>
+
+
 
             { <div className={styles.body}>
                     <div className={styles.Box2}>
                     <div className={styles.hbox}>
 
-                    {
-                    movies.length > 0 ? (
-                        movies.map((movie, index) => (
-                        <div key={index}>
-                            <table className={styles.hisTable}>
-                            <tr>
-                                <th>Tên phim</th>
-                                <th>Tên rạp</th>
-                                <th>Ngày xem</th>
-                                <th>Giờ chiếu</th>
-                                <th>Ghế ngồi</th>
-                                <th>Chi Tiết</th>
-                            </tr>
-                            <tr>
-                            <td>{movie.movieTitle}</td> 
-                            <td>{movie.theatre}</td> 
-                            <td>{movie.date}</td> 
-                            <td>{movie.time}</td>
-                            <td>{movie.seatPosition.map((pos:any, index:number) =>{
-                                return pos + " ";
-                            })}</td>
-                            <td><a href={`/User/reservation/${movie.reservationId}`}>Chi tiết</a></td>
-                            </tr>
+                        {movies.length > 0 ? (
+                            <table className="table-auto mx-auto bg-white shadow-lg rounded-lg">
+                                <thead>
+                                <tr>
+                                    <th className="border border-slate-600 p-2">Tên phim</th>
+                                    <th className="border border-slate-600 p-2">Tên rạp</th>
+                                    <th className="border border-slate-600 p-2">Ngày xem</th>
+                                    <th className="border border-slate-600 p-2">Giờ chiếu</th>
+                                    <th className="border border-slate-600 p-2">Ghế ngồi</th>
+                                    <th className="border border-slate-600 p-2">Chi Tiết</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {movies.map((movie) => (
+                                    <tr key={movie._id}>
+                                        <td className="border border-slate-700 p-2 text-center">{movie.movieTitle}</td>
+                                        <td className="border border-slate-700 p-2 text-center">{movie.theatre}</td>
+                                        <td className="border border-slate-700 p-2 text-center">
+                                            {(() => {
+                                                const variable = new Date(movie.date);
+                                                return variable.getDate() + "/" + (variable.getMonth()+ 1) + "/" + variable.getFullYear()  ;
+                                            })()}
+                                        </td>
+                                        <td className="border border-slate-700 p-2 text-center">{movie.time}</td>
+                                        <td className="border border-slate-700 p-2 text-center">{movie.seatPosition.map((pos:any, index:number) =>{
+                                            return pos;
+                                        }).join("-")}</td>
+                                        <td className="border border-slate-700 p-2 text-center"><a href={`/User/reservation/${movie.reservationId}`}>Chi tiết</a></td>
+                                    </tr>
+                                ))}
+                                </tbody>
                             </table>
-                        </div>
-                        ))
-                    ) : (
-                        <div>No movies found</div>
-                    )
-                    }
+                        ) : (
+                            <p>No movies available.</p>
+                        )}
                 
                     </div>
 

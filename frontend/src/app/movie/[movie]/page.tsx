@@ -184,7 +184,7 @@ export default function MoviesPage({ params, searchParams }: Props) {
         <div className={s.container}>
           <div className={s.leftcolumn}>
             <div className={s.a1}>
-              {!movie ? <div></div> : <img src={movie.image} alt="Mô tả ảnh" />}
+              {!movie ? <div></div> : <img src={movie.image} alt="Mô tả ảnh" className="w-full aspect-video"/>}
             </div>
           </div>
 
@@ -220,26 +220,26 @@ export default function MoviesPage({ params, searchParams }: Props) {
                 <div className={s.i2}>Duration: {movie.duration} min</div>
               )}
 
-              {!movie ? (
-                <div></div>
-              ) : (
-                <div className={s.i2}>Rating: {movie.rating}</div>
-              )}
-              <div className={s.starvote}>
-                <div className={s.i2}>Rate: </div>
-                <div className={s.rating}>
-                  <input type="radio" id="star5" name="rating" value="5" />
-                  <label htmlFor="star5"></label>
-                  <input type="radio" id="star4" name="rating" value="4" />
-                  <label htmlFor="star4"></label>
-                  <input type="radio" id="star3" name="rating" value="3" />
-                  <label htmlFor="star3"></label>
-                  <input type="radio" id="star2" name="rating" value="2" />
-                  <label htmlFor="star2"></label>
-                  <input type="radio" id="star1" name="rating" value="1" />
-                  <label htmlFor="star1"></label>
-                </div>
-              </div>
+              {/*{!movie ? (*/}
+              {/*  <div></div>*/}
+              {/*) : (*/}
+              {/*  <div className={s.i2}>Rating: {movie.rating}</div>*/}
+              {/*)}*/}
+              {/*<div className={s.starvote}>*/}
+              {/*  <div className={s.i2}>Rate: </div>*/}
+              {/*  <div className={s.rating}>*/}
+              {/*    <input type="radio" id="star5" name="rating" value="5" />*/}
+              {/*    <label htmlFor="star5"></label>*/}
+              {/*    <input type="radio" id="star4" name="rating" value="4" />*/}
+              {/*    <label htmlFor="star4"></label>*/}
+              {/*    <input type="radio" id="star3" name="rating" value="3" />*/}
+              {/*    <label htmlFor="star3"></label>*/}
+              {/*    <input type="radio" id="star2" name="rating" value="2" />*/}
+              {/*    <label htmlFor="star2"></label>*/}
+              {/*    <input type="radio" id="star1" name="rating" value="1" />*/}
+              {/*    <label htmlFor="star1"></label>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
 
               <div>
                 <div className={s.j1}> DESCRIPTION</div>
@@ -310,7 +310,7 @@ export default function MoviesPage({ params, searchParams }: Props) {
               <div className={s.schedule}>
                 <div className={s.type}>2D - Phụ đề</div>
                 <div className={s.alltime}>
-                  {sh.time.map((shh, i) => (
+                  {sh.time.map((shh:any, i:string) => (
                     <div
                       style={{
                         border: ((new Date(sh.date) > currentTime ? "1px solid #ccc" : ((new Date(sh.date) == currentTime) ? (sh.time > time ? "1px solid #ccc": "") : ""))),

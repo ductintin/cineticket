@@ -86,6 +86,7 @@
 
 .hbox{
     position: absolute;
+    display: flex;
     width: 90%;
     height: 85%;
     bottom: 0;
@@ -95,6 +96,7 @@
     margin-bottom: 5%;
     border: 2px solid #C0EEF2;
     box-shadow: 30px 30px 1px rgba(83, 127, 231, 0.1);
+    padding: 50px;
 }
 
 .his{

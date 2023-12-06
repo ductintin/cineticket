@@ -285,5 +285,6 @@ export default function Banner() {
 
       {/* Form end */}
     </div>
+
   );
 }

@@ -1,6 +1,8 @@
 "use client"
 import styles from './header.module.css'
 import { fbIcon,searchIcon, twitterIcon, instaIcon, logoIcon,logo_black, logoutIcon } from '@/assets/svgs'
+import { logo } from '@/assets/imgs'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux';
@@ -66,7 +68,7 @@ export default function Header () {
         <div className={`${styles.header}`}>
             <div className={`${styles.subheader}`}>
                 <div className={styles.logo} onClick={()=>router.push("/")}>
-                    <Image src={logo_black} alt='' className={styles.logo} width={60} height={60}/>   
+                    <Image src={logo} alt='' className={styles.logo}/>
                 </div>
                 <div className={styles.img}></div>
                 <SearchComp/>
@@ -88,57 +90,57 @@ export default function Header () {
                 )}
             
             </div>
-            {sticky? (
-                 <>
-                 <div className={styles.subheader}></div>
-                 <div className={`${styles.navbar} ${styles.is_sticky}`}>
-                    <ul className={styles.navbar_list}>
-                        <li className={styles.navbar_item}><Link href={''}>Trang chủ</Link></li>
-                        <li className={styles.navbar_item}><Link href={''}>Mua vé</Link></li>
-                        <li className={styles.navbar_item}><Link href={''}>Phim</Link></li>
-                        <li className={styles.navbar_item}><Link href={''}>Phim hot</Link></li>
-                        <li className={styles.navbar_item}><Link href={''}>Góc điện ảnh</Link></li>
-                        <li className={styles.navbar_item}><Link href={''}>Rạp/Giá vé</Link></li>
-                        <li className={styles.navbar_item}><Link href={''}>Hỗ trợ</Link></li>
+            {/*{sticky? (*/}
+            {/*     <>*/}
+            {/*     <div className={styles.subheader}></div>*/}
+            {/*     <div className={`${styles.navbar} ${styles.is_sticky}`}>*/}
+            {/*        <ul className={styles.navbar_list}>*/}
+            {/*            <li className={styles.navbar_item}><Link href={''}>Trang chủ</Link></li>*/}
+            {/*            <li className={styles.navbar_item}><Link href={''}>Mua vé</Link></li>*/}
+            {/*            <li className={styles.navbar_item}><Link href={''}>Phim</Link></li>*/}
+            {/*            <li className={styles.navbar_item}><Link href={''}>Phim hot</Link></li>*/}
+            {/*            <li className={styles.navbar_item}><Link href={''}>Góc điện ảnh</Link></li>*/}
+            {/*            <li className={styles.navbar_item}><Link href={''}>Rạp/Giá vé</Link></li>*/}
+            {/*            <li className={styles.navbar_item}><Link href={''}>Hỗ trợ</Link></li>*/}
 
-                    </ul>
-                    <ul className={styles.navbar_list_icon}>
-                        <li className={styles.navbar_item_icon}>
-                            <Image src={fbIcon} alt={''}></Image>
-                        </li>
-                        <li className={styles.navbar_item_icon}>
-                            <Image src={twitterIcon} alt={''}></Image>
-                        </li>
-                        <li className={styles.navbar_item_icon}>
-                            <Image src={instaIcon} alt={''}></Image>
-                        </li>
-                    </ul>
-                </div></>
-            ):(
-                <div className={styles.navbar}>
-                <ul className={styles.navbar_list}>
-                    <li className={styles.navbar_item}><Link href={'/'}>Trang chủ</Link></li>
-                    <li className={styles.navbar_item}><Link href={''}>Mua vé</Link></li>
-                    <li className={styles.navbar_item}><Link href={''}>Phim</Link></li>
-                    <li className={styles.navbar_item}><Link href={''}>Phim hot</Link></li>
-                    <li className={styles.navbar_item}><Link href={''}>Góc điện ảnh</Link></li>
-                    <li className={styles.navbar_item}><Link href={''}>Rạp/Giá vé</Link></li>
-                    <li className={styles.navbar_item}><Link href={''}>Hỗ trợ</Link></li>
+            {/*        </ul>*/}
+            {/*        <ul className={styles.navbar_list_icon}>*/}
+            {/*            <li className={styles.navbar_item_icon}>*/}
+            {/*                <Image src={fbIcon} alt={''}></Image>*/}
+            {/*            </li>*/}
+            {/*            <li className={styles.navbar_item_icon}>*/}
+            {/*                <Image src={twitterIcon} alt={''}></Image>*/}
+            {/*            </li>*/}
+            {/*            <li className={styles.navbar_item_icon}>*/}
+            {/*                <Image src={instaIcon} alt={''}></Image>*/}
+            {/*            </li>*/}
+            {/*        </ul>*/}
+            {/*    </div></>*/}
+            {/*):(*/}
+            {/*    <div className={styles.navbar}>*/}
+            {/*    <ul className={styles.navbar_list}>*/}
+            {/*        <li className={styles.navbar_item}><Link href={'/'}>Trang chủ</Link></li>*/}
+            {/*        <li className={styles.navbar_item}><Link href={''}>Mua vé</Link></li>*/}
+            {/*        <li className={styles.navbar_item}><Link href={''}>Phim</Link></li>*/}
+            {/*        <li className={styles.navbar_item}><Link href={''}>Phim hot</Link></li>*/}
+            {/*        <li className={styles.navbar_item}><Link href={''}>Góc điện ảnh</Link></li>*/}
+            {/*        <li className={styles.navbar_item}><Link href={''}>Rạp/Giá vé</Link></li>*/}
+            {/*        <li className={styles.navbar_item}><Link href={''}>Hỗ trợ</Link></li>*/}
 
-                </ul>
-                <ul className={styles.navbar_list_icon}>
-                <li className={styles.navbar_item_icon}>
-                    <Image src={fbIcon} alt={''}></Image>
-                </li>
-                <li className={styles.navbar_item_icon}>
-                    <Image src={twitterIcon} alt={''}></Image>
-                </li>
-                <li className={styles.navbar_item_icon}>
-                    <Image src={instaIcon} alt={''}></Image>
-                </li>
-                </ul>
-            </div>
-            )}
+            {/*    </ul>*/}
+            {/*    <ul className={styles.navbar_list_icon}>*/}
+            {/*    <li className={styles.navbar_item_icon}>*/}
+            {/*        <Image src={fbIcon} alt={''}></Image>*/}
+            {/*    </li>*/}
+            {/*    <li className={styles.navbar_item_icon}>*/}
+            {/*        <Image src={twitterIcon} alt={''}></Image>*/}
+            {/*    </li>*/}
+            {/*    <li className={styles.navbar_item_icon}>*/}
+            {/*        <Image src={instaIcon} alt={''}></Image>*/}
+            {/*    </li>*/}
+            {/*    </ul>*/}
+            {/*</div>*/}
+            {/*)}*/}
            
             {/* <Popup_Oauth/> */}
         </div>

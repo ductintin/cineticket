@@ -29,16 +29,16 @@ export default function ListFilm () {
     return (
         <>
         
-        <div className={styles.container}>
-            <div className={styles.animation_container}>
-                <div className={styles.text_animation}>🎉✨️ UsHappy - Thế giới phim trực tuyến cho bạn! 🎬🌍 Với hàng ngàn bộ phim 🎭🍿📺đa dạng từ mọi thể loại🌟🌈📽️🎭🎞️🍿📺💫 và quốc gia trên thế giới🎭 🌟🎉🎈🎥 Với giao diện thân thiện và dễ sử dụng  🌈🎬🎉 UsHappy - nơi tạo nên những kỷ niệm vui vẻ và đáng nhớ trong cuộc sống của bạn! 🧡🎥✨ 🎞️🍿
- </div>
-            </div>
-        </div>
+ {/*       <div className={styles.container}>*/}
+ {/*           <div className={styles.animation_container}>*/}
+ {/*               <div className={styles.text_animation}>🎉✨️ UsHappy - Thế giới phim trực tuyến cho bạn! 🎬🌍 Với hàng ngàn bộ phim 🎭🍿📺đa dạng từ mọi thể loại🌟🌈📽️🎭🎞️🍿📺💫 và quốc gia trên thế giới🎭 🌟🎉🎈🎥 Với giao diện thân thiện và dễ sử dụng  🌈🎬🎉 UsHappy - nơi tạo nên những kỷ niệm vui vẻ và đáng nhớ trong cuộc sống của bạn! 🧡🎥✨ 🎞️🍿*/}
+ {/*</div>*/}
+ {/*           </div>*/}
+ {/*       </div>*/}
 
         <div className={styles.body}>
             <div className={styles.dragon}>
-                <img src={pdc.src} alt="Movie" />
+                <img src={pdc.src} alt="Movie" className="mx-auto"/>
             </div>
 
 

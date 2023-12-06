@@ -1,6 +1,6 @@
 import styles from './footer.module.css'
 import { fbIcon_foot,instaIcon_foot, twtIcon, androidIcon, iosIcon,bg_foot, un_foot, logo_white} from '@/assets/svgs'
-import { test } from '@/assets/imgs'
+import {logo, test} from '@/assets/imgs'
 import Image from 'next/image'
 import Link from 'next/link'
 export default function Footer () {
@@ -117,9 +117,9 @@ export default function Footer () {
             </div>
             </div>
             <div className={styles.bottom}>
-                <Image src={logo_white} alt='' className={styles.logo} width={60} height={60}/>
-                  Happy Group 
-                <p className={styles.p}>KTX khu A, khu phố 6, phường Linh trung, thành phố Thủ Đức, HCM</p>
+                <Image src={logo} alt='' width={150} height={150}/>
+                  Cineticket
+                <p className={styles.p}>SPKT</p>
             </div>
             {/* <Image src={bg_foot} alt='' className={styles.bg}/> */}
         </div>

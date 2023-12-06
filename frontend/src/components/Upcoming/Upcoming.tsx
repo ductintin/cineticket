@@ -25,7 +25,7 @@ export default function ListFilm() {
     <>
       <div className={styles.body}>
             <div className={styles.dragon}>
-                <img src={psc.src} alt="Movie" />
+                <img src={psc.src} alt="Movie" className="mx-auto"/>
             </div>
 
         <div className={styles.listfilm}>
@@ -50,7 +50,7 @@ export default function ListFilm() {
         </div>
 
         <div className={styles.dragon}>
-                <img src={blp.src} alt="Movie" />
+                <img src={blp.src} alt="Movie" className="mx-auto"/>
             </div>
       </div>
     </>

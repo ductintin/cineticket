@@ -34,7 +34,7 @@
     width: 400px;
     height: 600px;
     border: 10px solid;
-    border-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet) 1;
+    /*border-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet) 1;*/
 }
 
 .a1 {
@@ -50,7 +50,7 @@
 }
 
 .i1 {
-    font-family: 'MyriadItalic', Arial, sans-serif;
+    /*font-family: 'MyriadItalic', Arial, sans-serif;*/
     font-style: italic;
     font-weight: 700;
     font-size: 40px;
@@ -68,7 +68,7 @@
 }
 
 .i2 {
-    font-family: 'Myriad', sans-serif;
+    /*font-family: 'Myriad', sans-serif;*/
     font-style: italic;
     font-weight: 600;
     font-size: 20px;
@@ -97,7 +97,7 @@
 }
 
 .j1 {
-    font-family: 'Myriad', sans-serif;
+    /*font-family: 'Myriad', sans-serif;*/
     font-size: 20px;
     line-height: 24px;
     margin-bottom: 20px;
@@ -111,7 +111,7 @@
 }
 
 .j2 {
-    font-family: 'Myriad', sans-serif;
+    /*font-family: 'Myriad', sans-serif;*/
     font-style: italic;
     font-weight: 600;
     font-size: 20px;
@@ -129,7 +129,7 @@
 }
 
 .btnbooking {
-    font-family: 'Myriad', sans-serif;
+    /*font-family: 'Myriad', sans-serif;*/
     font-weight: bold;
     font-size: 18px;
     padding: 10px 20px;

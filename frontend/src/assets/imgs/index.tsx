@@ -14,6 +14,7 @@ import ava from "./ava.jpg"
 import pdc from "./phimdangchieu.png"
 import psc from "./phimsapchieu.png"
 import blp from "./binhluanphim.png"
+import logo from "./logo.png"
 
 export {
     test,
@@ -31,5 +32,6 @@ export {
     pdc,
     blp,
     psc,
-    ava
+    ava,
+    logo
 }
