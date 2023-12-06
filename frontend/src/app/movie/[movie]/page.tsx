@@ -5,6 +5,7 @@ import { Metadata, ResolvingMetadata } from "next";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import showtimeAPI from "@/app/api/showtimeAPI";
 import { showtimeInterface } from "@/app/api/apiResponse";
+import { useRouter } from "next/navigation";
 
 type movieInterface = {
   _id: string;
@@ -33,7 +34,7 @@ export default function MoviesPage({ params, searchParams }: Props) {
   const currentTime = new Date();
   const hours = currentTime.getHours();
   const minutes = currentTime.getMinutes();
-  const time = hours +":" + minutes;
+  const time = hours + ":" + minutes;
 
   const fetchMovie = async () => {
     const res = await movieAPI.getMovie(movieId);
@@ -138,14 +139,15 @@ export default function MoviesPage({ params, searchParams }: Props) {
     time = encodeURIComponent(time);
     const link = `http://localhost:3000/screen?showtimeId=${showtimeId}&theatreName=${theatreName}&date=${date}&time=${time}&fbclid=IwAR34WyDJEGXy12f310JUJfyj62-do7hb8Bk4aoqu8Sjm5zMNU_8z9LAJx34`;
     window.location.href = link;
-    console.log("hello")
+    console.log("hello");
   };
 
-  const handleBook = (id: string) => {
-    
-    
+  const route = useRouter();
+  const handleBook = (scheduleId: string, date: String) => {
+    const link = `/screen?scheduleId=${scheduleId}&date=${date}`;
+
+    route.push(link);
   };
-  
 
   const clickbutton = () => {
     const scrollOptions: ScrollToOptions = { top: 1350, behavior: "smooth" };
@@ -277,7 +279,7 @@ export default function MoviesPage({ params, searchParams }: Props) {
             <div className={s.sche}> LỊCH CHIẾU</div>
           </div>
           <div className={s.select}>
-            <input
+            {/* <input
               type="date"
               className={s.datetime}
               value={selectedDate}
@@ -290,29 +292,41 @@ export default function MoviesPage({ params, searchParams }: Props) {
               <option>Happy Us Theatre Quận 3</option>
               <option>Happy Us Theatre Quận 4</option>
               <option>Happy Us Theatre Quận 5</option>
-            </select>
+            </select> */}
           </div>
 
           {schedule.map((sh, index) => (
             <div className={s.box} key={sh._id}>
               <div className={s.namett}>{sh.theatre}</div>
-              <div>{sh.date}</div>
+              <div>
+                {(() => {
+                  const variable = new Date(sh.date);
+                  console.log("vauushs", variable);
+                  console.log("current", currentTime);
+                  console.log("bab", variable > currentTime);
+                  return variable.getDate() + "/" + (variable.getMonth()+ 1) + "/" + variable.getFullYear()  ;
+                })()}
+              </div>
               <div className={s.schedule}>
                 <div className={s.type}>2D - Phụ đề</div>
                 <div className={s.alltime}>
                   {sh.time.map((shh, i) => (
-                    <div 
-                    style={{
-                      border: time > shh ? "" : '1px solid #ccc',
-                      borderRadius: '4px',
-                      padding: '10px',
-                      margin: '10px',
-                      background : (time > shh) ? "#c5d3e0" : ""
-                    }}
+                    <div
+                      style={{
+                        border: ((new Date(sh.date) > currentTime ? "1px solid #ccc" : ((new Date(sh.date) == currentTime) ? (sh.time > time ? "1px solid #ccc": "") : ""))),
+                        borderRadius: "4px",
+                        padding: "10px",
+                        margin: "10px",
+                        background: ((new Date(sh.date) > currentTime ? "" : ((new Date(sh.date) == currentTime) ? (sh.time > time ? "": "#c5d3e0") : "#c5d3e0"))),
+                      }}
                       key={i}
                       className={shh}
                       onClick={() =>
-                        time > shh ? {} : handleClick("Happy Us Theatre Quận 1", shh)
+                        ((new Date(sh.date) > currentTime ? handleBook(sh._id, shh) : ((new Date(sh.date) == currentTime) ? (sh.time > time ? handleBook(sh._id, shh): {}) : {})))
+
+                        // ((new Date(sh.date) > currentTime) && (sh.time > time))
+                        //   ? {}
+                        //   : handleClick("Happy Us Theatre Quận 1", shh)
                       }
                     >
                       {shh}

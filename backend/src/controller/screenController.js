@@ -46,13 +46,14 @@ const ScreenController = {
 
             let screen = await Screen.findOne({ scheduleId, time });
             if (!screen) {
-                screen = new Screen({
-                    scheduleId,
-                    time,
-                    seatArray: Array.from({ length: 5 }, () => Array(8).fill(0)).concat([Array(4).fill(0)]),
-                });
+                // screen = new Screen({
+                //     scheduleId,
+                //     time,
+                //     seatArray: Array.from({ length: 5 }, () => Array(8).fill(0)).concat([Array(4).fill(0)]),
+                // });
 
-                await screen.save();
+                // await screen.save();
+                return res.status(404).json({ error: 'screen is not found' });
             }
 
             res.status(200).json(screen);
@@ -90,6 +91,43 @@ const ScreenController = {
             res.status(500).json({ error: 'Error retrieving screen' });
         }
     },
+
+    getScreenByScheduleIdAndDate: async(req, res) => {
+        try {
+            const scheduleId = req.params.scheduleId;
+            const time = req.params.date;
+
+            console.log("scheduleId", scheduleId);
+            console.log("date", time);
+            const scheduleExists = await Schedule.findById(scheduleId);
+            if (!scheduleExists) {
+                return res.status(404).json({ error: 'Schedule not found' });
+            }
+
+            console.log(scheduleExists)
+            let screen = await Screen.findOne({ scheduleId, time });
+            if (!screen) {
+                const time = new Date();
+                screen = new Screen({
+                    scheduleId,
+                    time,
+                    seatArray: Array.from({ length: 5 }, () => Array(8).fill(0)).concat([Array(4).fill(0)]),
+                });
+
+                await screen.save();
+            }
+
+            // if (!screen) {
+            //     return res.status(404).json({ error: 'screen not found' });
+            // }
+
+            res.status(200).json(screen);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Error retrieving screen' });
+        }
+    },
+
 
     setBookedSeat: async(req, res) => {
         try {
