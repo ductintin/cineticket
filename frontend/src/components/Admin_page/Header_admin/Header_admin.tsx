@@ -12,7 +12,7 @@ export default function Header_admin (){
         <div className={styles.header}>
             {/* sub header  */}
             <div className={styles.sub_header}>
-                <div className={styles.icon}>   <Image src={open_ad} alt="" width={15} height={15}/></div>
+                {/*<div className={styles.icon}>   <Image src={open_ad} alt="" width={15} height={15}/></div>*/}
                 {/* <div className={styles.search_bar}>
                     <Image src={search_ad} alt="" width={20} height={20}/>
                     <input type="text" placeholder="Search here . . ." className={styles.input} />

@@ -6,6 +6,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import showtimeAPI from "@/app/api/showtimeAPI";
 import { showtimeInterface } from "@/app/api/apiResponse";
 import { useRouter } from "next/navigation";
+import {Button, Card} from "antd";
 
 type movieInterface = {
   _id: string;
@@ -189,70 +190,93 @@ export default function MoviesPage({ params, searchParams }: Props) {
           </div>
 
           <div className={s.rightcolumn}>
-            <div className={s.intro}>
-              {!movie ? <div></div> : <div className={s.i1}>{movie.title}</div>}
+            {/*<div className={s.intro}>*/}
+            {/*  {!movie ? <div></div> : <div className={s.i1}>{movie.title}</div>}*/}
 
-              {!movie ? (
-                <div></div>
-              ) : (
-                <div className={s.i2}>
-                  Language: {movie.language.join(", ")}
-                </div>
-              )}
-              {!movie ? (
-                <div></div>
-              ) : (
-                <div className={s.i2}>Genre: {movie.genre.join(", ")} </div>
-              )}
-              {!movie ? (
-                <div></div>
-              ) : (
-                <div className={s.i2}>Director: {movie.director}</div>
-              )}
-              {!movie ? (
-                <div></div>
-              ) : (
-                <div className={s.i3}>Cast: {movie.cast.join(", ")}</div>
-              )}
-              {!movie ? (
-                <div></div>
-              ) : (
-                <div className={s.i2}>Duration: {movie.duration} min</div>
-              )}
+            {/*  {!movie ? (*/}
+            {/*    <div></div>*/}
+            {/*  ) : (*/}
+            {/*    <div className={s.i2}>*/}
+            {/*      Language: {movie.language.join(", ")}*/}
+            {/*    </div>*/}
+            {/*  )}*/}
+            {/*  {!movie ? (*/}
+            {/*    <div></div>*/}
+            {/*  ) : (*/}
+            {/*    <div className={s.i2}>Genre: {movie.genre.join(", ")} </div>*/}
+            {/*  )}*/}
+            {/*  {!movie ? (*/}
+            {/*    <div></div>*/}
+            {/*  ) : (*/}
+            {/*    <div className={s.i2}>Director: {movie.director}</div>*/}
+            {/*  )}*/}
+            {/*  {!movie ? (*/}
+            {/*    <div></div>*/}
+            {/*  ) : (*/}
+            {/*    <div className={s.i3}>Cast: {movie.cast.join(", ")}</div>*/}
+            {/*  )}*/}
+            {/*  {!movie ? (*/}
+            {/*    <div></div>*/}
+            {/*  ) : (*/}
+            {/*    <div className={s.i2}>Duration: {movie.duration} min</div>*/}
+            {/*  )}*/}
 
-              {/*{!movie ? (*/}
-              {/*  <div></div>*/}
-              {/*) : (*/}
-              {/*  <div className={s.i2}>Rating: {movie.rating}</div>*/}
-              {/*)}*/}
-              {/*<div className={s.starvote}>*/}
-              {/*  <div className={s.i2}>Rate: </div>*/}
-              {/*  <div className={s.rating}>*/}
-              {/*    <input type="radio" id="star5" name="rating" value="5" />*/}
-              {/*    <label htmlFor="star5"></label>*/}
-              {/*    <input type="radio" id="star4" name="rating" value="4" />*/}
-              {/*    <label htmlFor="star4"></label>*/}
-              {/*    <input type="radio" id="star3" name="rating" value="3" />*/}
-              {/*    <label htmlFor="star3"></label>*/}
-              {/*    <input type="radio" id="star2" name="rating" value="2" />*/}
-              {/*    <label htmlFor="star2"></label>*/}
-              {/*    <input type="radio" id="star1" name="rating" value="1" />*/}
-              {/*    <label htmlFor="star1"></label>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
+            {/*  /!*{!movie ? (*!/*/}
+            {/*  /!*  <div></div>*!/*/}
+            {/*  /!*) : (*!/*/}
+            {/*  /!*  <div className={s.i2}>Rating: {movie.rating}</div>*!/*/}
+            {/*  /!*)}*!/*/}
+            {/*  /!*<div className={s.starvote}>*!/*/}
+            {/*  /!*  <div className={s.i2}>Rate: </div>*!/*/}
+            {/*  /!*  <div className={s.rating}>*!/*/}
+            {/*  /!*    <input type="radio" id="star5" name="rating" value="5" />*!/*/}
+            {/*  /!*    <label htmlFor="star5"></label>*!/*/}
+            {/*  /!*    <input type="radio" id="star4" name="rating" value="4" />*!/*/}
+            {/*  /!*    <label htmlFor="star4"></label>*!/*/}
+            {/*  /!*    <input type="radio" id="star3" name="rating" value="3" />*!/*/}
+            {/*  /!*    <label htmlFor="star3"></label>*!/*/}
+            {/*  /!*    <input type="radio" id="star2" name="rating" value="2" />*!/*/}
+            {/*  /!*    <label htmlFor="star2"></label>*!/*/}
+            {/*  /!*    <input type="radio" id="star1" name="rating" value="1" />*!/*/}
+            {/*  /!*    <label htmlFor="star1"></label>*!/*/}
+            {/*  /!*  </div>*!/*/}
+            {/*  /!*</div>*!/*/}
 
-              <div>
-                <div className={s.j1}> DESCRIPTION</div>
-                {!movie ? (
+            {/*  /!*<div>*!/*/}
+            {/*  /!*  <div className={s.j1}> DESCRIPTION</div>*!/*/}
+            {/*  /!*  {!movie ? (*!/*/}
+            {/*  /!*    <div></div>*!/*/}
+            {/*  /!*  ) : (*!/*/}
+            {/*  /!*      <p >{movie.description}</p>*!/*/}
+            {/*  /!*  )}*!/*/}
+            {/*  /!*</div>*!/*/}
+            {/*  <button className={s.btnbooking} onClick={clickbutton}>*/}
+            {/*    ĐẶT VÉ*/}
+            {/*  </button>*/}
+            {/*</div>*/}
+
+            <Card className={s.intro}>
+              {!movie ? (
                   <div></div>
-                ) : (
-                  <div className={s.j2}>{movie.description}</div>
-                )}
-              </div>
-              <button className={s.btnbooking} onClick={clickbutton}>
-                ĐẶT VÉ
-              </button>
-            </div>
+              ) : (
+                  <>
+                    <p className="text-3xl text-green-700 text-center bg-white p-1"> {movie.title}
+                    </p>
+
+                    <p className="text-2xl p-1 mt-5">
+                      Language: {movie.language.join(", ")}
+                    </p>
+                    <p className="text-2xl p-1">Genre: {movie.genre.join(", ")} </p>
+                    <p className="text-2xl p-1">Director: {movie.director}</p>
+                    <p className="text-2xl p-1">Cast: {movie.cast.join(", ")}</p>
+                    <p className="text-2xl p-1">Duration: {movie.duration} min</p>
+                    <p className="text-2xl p-1">Description: {movie.description}</p>
+
+                    <Button onClick={clickbutton} className="bg-amber-400 my-5" size="large" block>Đặt vé</Button>
+                  </>
+
+              )}
+            </Card>
           </div>
         </div>
         {/* <div className={s.newmoviewrap}>

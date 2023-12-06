@@ -1,7 +1,7 @@
 "use client"
 import s from './Film_manager.module.css'
 import React, { useState, useEffect } from 'react'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton, TextField, MenuItem, Select } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TextField, MenuItem } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -21,6 +21,18 @@ import DatePicker from '@mui/lab/DatePicker';
 import { format } from 'date-fns'; // Import thư viện date-fns để định dạng ngày tháng
 import { showtimeInterface } from '@/app/api/apiResponse';
 import { useRouter } from 'next/navigation'
+import {
+    Form,
+    Input,
+    Tooltip,
+    Cascader,
+    Select,
+    Row,
+    Col,
+    Checkbox,
+    Button,
+    AutoComplete, Layout,
+} from 'antd';
 
 
 type Props = {
@@ -68,6 +80,17 @@ export default function Film_manager ({params, searchParams}: Props) {
       console.log('token ne ', token)
       const [films, setfilms] = useState<any>({});
       const router = useRouter();
+
+    const formItemLayout = {
+        labelCol: {
+            xs: { span: 20 },
+            sm: { span: 3 },
+        },
+        wrapperCol: {
+            xs: { span: 20 },
+            sm: { span: 10 },
+        },
+    };
 
       const stt = async () => {
         const res11= await showtimeAPI.getShowtime(id)
@@ -281,7 +304,7 @@ export default function Film_manager ({params, searchParams}: Props) {
         };
 
     return (
-    <div className={s.body}>
+        <Layout>
 
       {/*<div className={s.title}>*/}
       {/*  <div>*/}
@@ -297,61 +320,95 @@ export default function Film_manager ({params, searchParams}: Props) {
       {/*    )}*/}
       {/*  </div>*/}
       {/*</div>*/}
-      <div className={s.flex}>
-        <div className={s.info}> Title: </div>
-        <div>
-            <input className={s.data} type="text" value={text?.title} onChange={handleInputChange1} />
-        </div>
-      </div>
-      <div className={s.flex}>
-        <div className={s.info}> Genre: </div>
-        <div>
-            <input className={s.data} type="text" value={text?.genre} onChange={handleInputChange2} />
-        </div>
-      </div>
-      <div className={s.flex}>
-        <div className={s.info}> Director: </div>
-        <div>
-            <input className={s.data} type="text" value={text?.director} onChange={handleInputChange3} />
 
-        </div>
-      </div>
-      <div className={s.flex}>
-        <div className={s.info}> Cast: </div>
-        <div>
-            <input className={s.data} type="text" value={text?.cast} onChange={handleInputChange4} />
-        </div>
-      </div>
-      <div className={s.flex}>
-        <div className={s.info}> Duration: </div>
-        <div>
-            <input className={s.data} type="text" value={text?.duration} onChange={handleInputChange5} />
-        </div>
-      </div>
-      <div className={s.flex}>
-        <div className={s.info}> Language: </div>
-        <div>
-            <input className={s.data} type="text" value={text?.language} onChange={handleInputChange6} />
-        </div>
-      </div>
-      <div className={s.flex}>
-        <div className={s.info}> Rating: </div>
-        <div>
-            <input className={s.data} type="text" value={text?.rating} onChange={handleInputChange7} />
-        </div>
-      </div>
-      <div className={s.flex}>
-        <div className={s.info}> Description: </div>
-        <div>
-            <input className={s.data} type="text" value={text?.description} onChange={handleInputChange8} />
-        </div>
-      </div>
 
-        <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={handleSaveClick}>
-            Save
-        </Button>
+        <Form {...formItemLayout} className="mx-10">
+            <Form.Item label="Title">
+                <Input value={text?.title} onChange={handleInputChange1}/>
+            </Form.Item>
+            <Form.Item label="Genre">
+                <Input value={text?.genre} onChange={handleInputChange2}/>
+            </Form.Item>
+            <Form.Item label="Director">
+                <Input value={text?.director} onChange={handleInputChange3}/>
+            </Form.Item>
+            <Form.Item label="Cast">
+                <Input value={text?.cast} onChange={handleInputChange4}/>
+            </Form.Item>
+            <Form.Item label="Duration">
+                <Input value={text?.duration} onChange={handleInputChange5}/>
+            </Form.Item>
+            <Form.Item label="Language">
+                <Input value={text?.language} onChange={handleInputChange6}/>
+            </Form.Item>
+            <Form.Item label="Rating">
+                <Input value={text?.rating} onChange={handleInputChange7}/>
+            </Form.Item>
+            <Form.Item label="Description">
+                <Input value={text?.description} onChange={handleInputChange8}/>
+            </Form.Item>
+
+        </Form>
+
+        <Layout>
+            <Button onClick={handleSaveClick} className=" mx-auto bg-blue-600">
+                Save
+            </Button>
+        </Layout>
+
+
+      {/*<div className={s.flex}>*/}
+      {/*  <div className={s.info}> Title: </div>*/}
+      {/*  <div>*/}
+      {/*      <input className={s.data} type="text" value={text?.title} onChange={handleInputChange1} />*/}
+      {/*  </div>*/}
+      {/*</div>*/}
+      {/*<div className={s.flex}>*/}
+      {/*  <div className={s.info}> Genre: </div>*/}
+      {/*  <div>*/}
+      {/*      <input className={s.data} type="text" value={text?.genre} onChange={handleInputChange2} />*/}
+      {/*  </div>*/}
+      {/*</div>*/}
+      {/*<div className={s.flex}>*/}
+      {/*  <div className={s.info}> Director: </div>*/}
+      {/*  <div>*/}
+      {/*      <input className={s.data} type="text" value={text?.director} onChange={handleInputChange3} />*/}
+
+      {/*  </div>*/}
+      {/*</div>*/}
+      {/*<div className={s.flex}>*/}
+      {/*  <div className={s.info}> Cast: </div>*/}
+      {/*  <div>*/}
+      {/*      <input className={s.data} type="text" value={text?.cast} onChange={handleInputChange4} />*/}
+      {/*  </div>*/}
+      {/*</div>*/}
+      {/*<div className={s.flex}>*/}
+      {/*  <div className={s.info}> Duration: </div>*/}
+      {/*  <div>*/}
+      {/*      <input className={s.data} type="text" value={text?.duration} onChange={handleInputChange5} />*/}
+      {/*  </div>*/}
+      {/*</div>*/}
+      {/*<div className={s.flex}>*/}
+      {/*  <div className={s.info}> Language: </div>*/}
+      {/*  <div>*/}
+      {/*      <input className={s.data} type="text" value={text?.language} onChange={handleInputChange6} />*/}
+      {/*  </div>*/}
+      {/*</div>*/}
+      {/*<div className={s.flex}>*/}
+      {/*  <div className={s.info}> Rating: </div>*/}
+      {/*  <div>*/}
+      {/*      <input className={s.data} type="text" value={text?.rating} onChange={handleInputChange7} />*/}
+      {/*  </div>*/}
+      {/*</div>*/}
+      {/*<div className={s.flex}>*/}
+      {/*  <div className={s.info}> Description: </div>*/}
+      {/*  <div>*/}
+      {/*      <input className={s.data} type="text" value={text?.description} onChange={handleInputChange8} />*/}
+      {/*  </div>*/}
+      {/*</div>*/}
+
         <ToastContainer />
-    </div>
+        </Layout>
     );
 }
 

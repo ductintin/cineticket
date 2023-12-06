@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import SearchComp from '../search/search';
 import axios from 'axios';
 import { userProfileSelector } from '@/redux/userSelector'
+import {Divider} from "antd";
 export default function Header () {
     const dispatch = useDispatch();
     const userData = useSelector(userProfileSelector);
@@ -143,6 +144,8 @@ export default function Header () {
             {/*)}*/}
            
             {/* <Popup_Oauth/> */}
+
+            <Divider />
         </div>
         
     )

@@ -228,6 +228,7 @@ export default function Seat() {
   const [totalPrice, setTotalPrice] = useState(
     selectedSeats.length * price[0] + selectedDoubleSeats.length * price[1]
   );
+
   const handleBookingBtn = async () => {
     //setBookedSeats([]);
     console.log("dounle", bookedseats);

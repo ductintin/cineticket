@@ -53,3 +53,13 @@
     background-color: var(--primary-color-1);
     border-radius: 5px;
 }
+
+.menu-bar{
+    height: 88vh;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 1rem;
+    position: relative;
+}
