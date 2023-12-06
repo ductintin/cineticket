@@ -31,10 +31,20 @@ const screenAPI = {
     const url =`${apiV1}/screens/?showtimeId=${showtimeID}&theatre=${theatre}&date=${date}&timeSlot=${timeSlot}`;
     return get(url,token)
   },
+  getScreenByScheduleIdAndTime: function (token: string, scheduleId: string, time: string) {
+    const url =`${apiV1}/screens/schedule-time?scheduleId=${scheduleId}&time=${time}`;
+    return get(url,token)
+  },
   getScreenByScheduleId: function (token: string, scheduleId: string) {
     const url =`${apiV1}/screens/schedule/${scheduleId}`;
     return get(url,token)
   },
+
+  getScreenByScheduleIdAndDate: function (token: string, scheduleId: string, date: string) {
+    const url =`${apiV1}/screens/${scheduleId}/${date}`;
+    return get(url,token)
+  },
+
   deleteBookedSeat: function(token: string, seatid: string){
     const url=`${apiV1}/screens/booked-seat/${seatid}`
     return delele(url, token)

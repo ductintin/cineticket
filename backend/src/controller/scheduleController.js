@@ -1,6 +1,7 @@
 const Schedule = require('../model/schedule');
 const Theatres = require('../utils/theatres');
 const Showtime = require('../model/showtime');
+const Screen = require('../model/screen');
 const fs = require('fs');
 const Movie = require('../model/movie');
 
@@ -61,6 +62,22 @@ const scheduleController = {
                 time: scheduleTimes,
             });
 
+            await Promise.all(time.map(async(t, index) => {
+                const scheduleId = schedule._id;
+                let screen = await Screen.findOne({ scheduleId: scheduleId, time: t });
+
+                if (!screen) {
+                    screen = new Screen({
+                        scheduleId: scheduleId,
+                        time: t,
+                        seatArray: Array.from({ length: 5 }, () => Array(8).fill(0)).concat([Array(4).fill(0)]),
+                    });
+
+                    await screen.save();
+                }
+            }));
+
+
             res.status(201).json(schedule);
         } catch (error) {
             console.error(error);
@@ -111,8 +128,14 @@ const scheduleController = {
 
             console.log(showtimeId);
             const scheduleDate = new Date();
-            scheduleDate.setHours(scheduleDate.getHours() + 7); // Add GMT+7 offset
+            console.log("scheduleDate", scheduleDate);
+            // const date = new Date(scheduleDate.getTime() + 7 * 60 * 60 * 1000); // Add GMT+7 offset
             //scheduleDate.setHours(scheduleDate.getMonth() - 1); // Add GMT+7 offset
+            scheduleDate.setHours(7);
+            scheduleDate.setMinutes(0);
+            scheduleDate.setSeconds(0);
+            scheduleDate.setMilliseconds(0);
+            console.log("date", scheduleDate);
 
             const schedules = await Schedule.find({
                 showtimeId,
