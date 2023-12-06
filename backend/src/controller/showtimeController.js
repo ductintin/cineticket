@@ -183,7 +183,7 @@ const showtimeController = {
     updateShowtimeById: async(req, res) => {
         const _id = req.params.id;
         const updates = Object.keys(req.body);
-        const allowedUpdates = ['movieId', 'theatreId', 'dateRange', 'isActive'];
+        const allowedUpdates = ['movieId', 'dateRange', 'isActive'];
         const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
 
         if (!isValidOperation) return res.status(400).json({ error: 'Invalid updates' });
