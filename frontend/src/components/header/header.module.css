@@ -17,7 +17,6 @@
     display: flex;
     /* justify-content: space-between; */
     font-weight: 400;
-    align-items: center;
 
 }
 .navbar_list{
@@ -51,6 +50,7 @@
     display: inline-block;
     font-size: 18px;
     color: white !important;
+
 
 }
 

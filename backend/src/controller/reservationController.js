@@ -5,6 +5,7 @@ const Screen = require('../model/screen');
 const Schedule = require('../model/schedule');
 const Movie = require('../model/movie');
 const Showtime = require('../model/showtime');
+const {add} = require("nodemon/lib/rules");
 
 const reservationController = {
   createReservation: async (req, res) => {
@@ -154,6 +155,8 @@ const reservationController = {
       const tickets = [];
   
       for (const reservation of reservations) {
+        const position = [];
+        let price = 0;
         for (const seatId of reservation.seats) {
           const seat = await BookedSeat.findById(seatId);
           if (!seat) {
@@ -161,26 +164,28 @@ const reservationController = {
             continue; // Skip to the next iteration
           }
           const row = String.fromCharCode(65 + seat.coordinate[0]);
-          const position = row + seat.coordinate[1];
-          const price = seat.seatType == 1 ? 50000 : 100000;
-  
-          const screen = await Screen.findById(seat.screenId);
-          const schedule = await Schedule.findById(screen.scheduleId);
-          const showtime = await Showtime.findById(schedule.showtimeId);
-          const movie = await Movie.findById(showtime.movieId);
-  
-          const ticket = {
-            movieTitle: movie.title,
-            date: schedule.date,
-            time: screen.time,
-            price: price,
-            seatPosition: position,
-            theatre: schedule.theatre,
-            reservationId:reservation._id
-          };
-  
-          tickets.push(ticket);
+          position.push(row + seat.coordinate[1]);
+          price = price +  seat.seatType == 1 ? 50000 : 100000;
+
+          //const screen = await Screen.findById(seat.screenId);
+
         }
+        const schedule = await Schedule.findById(reservation.scheduleId);
+        const showtime = await Showtime.findById(schedule.showtimeId);
+        const movie = await Movie.findById(showtime.movieId);
+
+        const ticket = {
+          movieTitle: movie.title,
+          date: schedule.date,
+          time: reservation.time,
+          price: price,
+          seatPosition: position,
+          theatre: schedule.theatre,
+          reservationId:reservation._id
+        };
+
+        tickets.push(ticket);
+
       }
   
       res.status(200).json({ tickets });

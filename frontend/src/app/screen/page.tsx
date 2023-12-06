@@ -14,6 +14,8 @@ import { Sree_Krushnadevaraya } from "next/font/google";
 import PopupResult from "@/components/popup_result/popup_result";
 import axios from "axios";
 import { useParams } from 'react-router-dom';
+import {width} from "@mui/system";
+import { useRouter } from 'next/navigation'
 
 // type Props = {
 //   params: { scheduleId: string };
@@ -27,6 +29,7 @@ export default function Seat() {
   console.log("babab", searchParam);
   const user = useSelector((state: any) => state.auth.login.currentUser);
   const userId = user?.user?._id;
+  const router = useRouter();
 
   const [seats, setSeats] = useState<any[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<any[]>([]);
@@ -46,6 +49,8 @@ export default function Seat() {
   const showtimeId = searchParam.get("showtimeId") || "";
   const [showtime, setShowtime] = useState<showtimeInterface | any>();
   const [banks, setBanks] = useState<any[]>([]);
+  const [movie, setMovie] = useState<any>();
+  const [schedule, setSchedule] = useState<any>();
 
   useEffect(() => {
     const currentURL = window.location.href;
@@ -73,8 +78,10 @@ export default function Seat() {
     );
 
     console.log("data", data);
-    setScreenInfo(data.data);
-    setSeatArr(data.data.seatArray);
+    setScreenInfo(data.data.screen);
+    setSeatArr(data.data.screen.seatArray);
+    setMovie(data.data.movie);
+    setSchedule(data.data.schedule);
 
     // selectedSeats?.forEach((element, index) => {
     //   if (res.data.seatArray[element[0]][element[1]]===1){
@@ -197,6 +204,7 @@ export default function Seat() {
               (selectedDoubleSeats.length + 1) * price[1]
           );
 
+          console.log("jjjdj",selectedDoubleSeats);
           return [...prevSelectedSeats, arr];
         }
       });
@@ -269,9 +277,10 @@ export default function Seat() {
       setBookedSeats([]);
       console.log("dounle 5", bookedseats);
     }, 10);
+    await router.push(`/User/reservation/${(await res1).data._id}`);
   };
   const handleBackBtn = async () => {
-    const res = await screenAPI.deleteBookedSeat(user?.token, bookedseats[0]);
+    //const res = await screenAPI.deleteBookedSeat(user?.token, bookedseats[0]);
     setBookedSeats([]);
     setIsChoosingSeat(1);
   };
@@ -291,8 +300,10 @@ export default function Seat() {
         <div className={styles.body}>
           <div className={styles.movie_container}>
             <div className={styles.container}>
+              <div className={styles.screen}>MÀN HÌNH</div>
               {seatArr.map((row, indexrow) => (
-                <div key={row}>
+                <div key={row} className={styles.abc}>
+
                   <div className={styles.row}>
                     {row.map((seat: any, index: number) => (
                       <div
@@ -329,8 +340,8 @@ export default function Seat() {
                             ? styles.selected
                             : ""
                         }`}
-                        onClick={() => handleSeatClick([indexrow, index])}
-                      ></div>
+                        onClick={() => seat === 1 ? {} : handleSeatClick([indexrow, index])}
+                      >{convert2Alphabet([indexrow, index]) }</div>
                     ))}
                   </div>
                 </div>
@@ -357,8 +368,8 @@ export default function Seat() {
                         convert2Alphabet(seatId)[1]
                       }`;
                     })
-                    .join(", ")}
-                  ,
+                    .join(" - ")}
+
                   {selectedDoubleSeats
                     .map((seatId) => {
                       const seat = seatArr.find(
@@ -369,7 +380,7 @@ export default function Seat() {
                         convert2Alphabet(seatId)[1]
                       }`;
                     })
-                    .join(", ")}
+                    .join(" - ")}
                 </span>
               </p>
             </div>
@@ -377,7 +388,7 @@ export default function Seat() {
             <button
               className={styles.ripple}
               onClick={() => {
-                handleNextBtn();
+                selectedDoubleSeats.length == 0 && selectedSeats.length == 0 ? {} : handleNextBtn();
               }}
             >
               Tiếp theo
@@ -391,18 +402,18 @@ export default function Seat() {
               <div className={styles.content}>
                 <h5 className={styles.content1}>Loại vé</h5>
                 <h5 className={styles.content2}>Số lượng</h5>
-                <h5 className={styles.content2}>Giá (VNĐ)</h5>
+                <h5 className={styles.content2}>Giá/vé (VNĐ)</h5>
                 <h5 className={styles.content2}>Tổng (VNĐ)</h5>
               </div>
               <div className={styles.ticketBox}>
                 <div className={styles.opt}>
-                  <h5 className={styles.content1}>
-                    Người lớn
-                    <br />
-                    <sup>
-                      <small>2D</small>
-                    </sup>
-                  </h5>
+                  <span className={styles.content1}>
+                    Ghế đơn
+                    {/*<br />*/}
+                    {/*<sup>*/}
+                    {/*  <small>2D</small>*/}
+                    {/*</sup>*/}
+                  </span>
                   <div className={styles.inputNum}>{selectedSeats.length}</div>
                   <div className={styles.price}>{price[0]}</div>
                   <div className={styles.outputNum}>
@@ -410,26 +421,22 @@ export default function Seat() {
                     {selectedSeats.length * price[0]}
                   </div>
                 </div>
+                {/*<div className={styles.opt}>*/}
+                {/*  <h5 className={styles.content1}>*/}
+                {/*    Người lớn*/}
+                {/*    <br />*/}
+                {/*    <sup>*/}
+                {/*      <small>3D</small>*/}
+                {/*    </sup>*/}
+                {/*  </h5>*/}
+                {/*  <div className={styles.inputNum}>0</div>*/}
+                {/*  <div className={styles.price}>{price[1]}</div>*/}
+                {/*  <div className={styles.outputNum}>0</div>*/}
+                {/*</div>*/}
                 <div className={styles.opt}>
-                  <h5 className={styles.content1}>
-                    Người lớn
-                    <br />
-                    <sup>
-                      <small>3D</small>
-                    </sup>
-                  </h5>
-                  <div className={styles.inputNum}>0</div>
-                  <div className={styles.price}>{price[1]}</div>
-                  <div className={styles.outputNum}>0</div>
-                </div>
-                <div className={styles.opt}>
-                  <h5 className={styles.content1}>
-                    Người lớn
-                    <br />
-                    <sup>
-                      <small>2D-bao gồm 2 vé</small>
-                    </sup>
-                  </h5>
+                  <span className={styles.content1}>
+                    Ghế đôi
+                  </span>
                   <div className={styles.inputNum}>
                     {selectedDoubleSeats.length}
                   </div>
@@ -440,101 +447,101 @@ export default function Seat() {
                 </div>
               </div>
 
-              <div className={styles.content}>
-                <h5 className={styles.content1}>Bắp/Nước</h5>
-                <h5 className={styles.content2}>Số lượng</h5>
-                <h5 className={styles.content2}>Giá (VNĐ)</h5>
-                <h5 className={styles.content2}>Tổng (VNĐ)</h5>
-              </div>
-              <div className={styles.food}>
-                <div className={styles.optFood}>
-                  <div className={styles.content3}>
-                    <Image src={food3} alt="" />
-                    <h5>
-                      Combo 1 Big Extra
-                      <br />
-                      <sup>
-                        <small>1 Ly nước ngọt size L + 01 Hộp bắp</small>
-                      </sup>
-                    </h5>
-                  </div>
-                  <div className={styles.content4}>
-                    <div className={styles.divNum} defaultValue={0} />
-                    <div className={styles.price} defaultValue={50000} />
-                    <div className={styles.outputNum} />
-                  </div>
-                </div>
+              {/*<div className={styles.content}>*/}
+              {/*  <h5 className={styles.content1}>Bắp/Nước</h5>*/}
+              {/*  <h5 className={styles.content2}>Số lượng</h5>*/}
+              {/*  <h5 className={styles.content2}>Giá (VNĐ)</h5>*/}
+              {/*  <h5 className={styles.content2}>Tổng (VNĐ)</h5>*/}
+              {/*</div>*/}
+              {/*<div className={styles.food}>*/}
+              {/*  <div className={styles.optFood}>*/}
+              {/*    <div className={styles.content3}>*/}
+              {/*      <Image src={food3} alt="" />*/}
+              {/*      <h5>*/}
+              {/*        Combo 1 Big Extra*/}
+              {/*        <br />*/}
+              {/*        <sup>*/}
+              {/*          <small>1 Ly nước ngọt size L + 01 Hộp bắp</small>*/}
+              {/*        </sup>*/}
+              {/*      </h5>*/}
+              {/*    </div>*/}
+              {/*    <div className={styles.content4}>*/}
+              {/*      <div className={styles.divNum} defaultValue={0} />*/}
+              {/*      <div className={styles.price} defaultValue={50000} />*/}
+              {/*      <div className={styles.outputNum} />*/}
+              {/*    </div>*/}
+              {/*  </div>*/}
 
-                <div className={styles.optFood}>
-                  <div className={styles.content3}>
-                    <Image src={food1} alt="" />
-                    <h5>
-                      Combo 1 Big Extra
-                      <br />
-                      <sup>
-                        <small>
-                          1 Ly nước ngọt size L + 01 Hộp bắp + 1 Snack{" "}
-                        </small>
-                      </sup>
-                    </h5>
-                  </div>
-                  <div className={styles.content4}>
-                    <div className={styles.divNum} defaultValue={0} />
-                    <div className={styles.price} defaultValue={90000} />
-                    <div className={styles.outputNum} />
-                  </div>
-                </div>
+              {/*  <div className={styles.optFood}>*/}
+              {/*    <div className={styles.content3}>*/}
+              {/*      <Image src={food1} alt="" />*/}
+              {/*      <h5>*/}
+              {/*        Combo 1 Big Extra*/}
+              {/*        <br />*/}
+              {/*        <sup>*/}
+              {/*          <small>*/}
+              {/*            1 Ly nước ngọt size L + 01 Hộp bắp + 1 Snack{" "}*/}
+              {/*          </small>*/}
+              {/*        </sup>*/}
+              {/*      </h5>*/}
+              {/*    </div>*/}
+              {/*    <div className={styles.content4}>*/}
+              {/*      <div className={styles.divNum} defaultValue={0} />*/}
+              {/*      <div className={styles.price} defaultValue={90000} />*/}
+              {/*      <div className={styles.outputNum} />*/}
+              {/*    </div>*/}
+              {/*  </div>*/}
 
-                <div className={styles.optFood}>
-                  <div className={styles.content3}>
-                    <Image src={food4} alt="" />
-                    <h5>
-                      Combo 1 Big Extra
-                      <br />
-                      <sup>
-                        <small>2 Ly nước ngọt size L + 01 Hộp bắp</small>
-                      </sup>
-                    </h5>
-                  </div>
-                  <div className={styles.content4}>
-                    <div className={styles.divNum} defaultValue={0} />
-                    <div className={styles.price} defaultValue={price[1]} />
-                    <div className={styles.outputNum} />
-                  </div>
-                </div>
+              {/*  <div className={styles.optFood}>*/}
+              {/*    <div className={styles.content3}>*/}
+              {/*      <Image src={food4} alt="" />*/}
+              {/*      <h5>*/}
+              {/*        Combo 1 Big Extra*/}
+              {/*        <br />*/}
+              {/*        <sup>*/}
+              {/*          <small>2 Ly nước ngọt size L + 01 Hộp bắp</small>*/}
+              {/*        </sup>*/}
+              {/*      </h5>*/}
+              {/*    </div>*/}
+              {/*    <div className={styles.content4}>*/}
+              {/*      <div className={styles.divNum} defaultValue={0} />*/}
+              {/*      <div className={styles.price} defaultValue={price[1]} />*/}
+              {/*      <div className={styles.outputNum} />*/}
+              {/*    </div>*/}
+              {/*  </div>*/}
 
-                <div className={styles.optFood}>
-                  <div className={styles.content3}>
-                    <Image src={food2} alt="" />
-                    <h5>
-                      Combo 1 Big Extra
-                      <br />
-                      <sup>
-                        <small>
-                          2 Ly nước ngọt size L + 01 Hộp bắp + 1 Snack
-                        </small>
-                      </sup>
-                    </h5>
-                  </div>
-                  <div className={styles.content4}>
-                    <div className={styles.divNum} defaultValue={0} />
-                    <div className={styles.price} defaultValue={100000} />
-                    <div className={styles.outputNum} />
-                  </div>
-                </div>
-              </div>
+              {/*  <div className={styles.optFood}>*/}
+              {/*    <div className={styles.content3}>*/}
+              {/*      <Image src={food2} alt="" />*/}
+              {/*      <h5>*/}
+              {/*        Combo 1 Big Extra*/}
+              {/*        <br />*/}
+              {/*        <sup>*/}
+              {/*          <small>*/}
+              {/*            2 Ly nước ngọt size L + 01 Hộp bắp + 1 Snack*/}
+              {/*          </small>*/}
+              {/*        </sup>*/}
+              {/*      </h5>*/}
+              {/*    </div>*/}
+              {/*    <div className={styles.content4}>*/}
+              {/*      <div className={styles.divNum} defaultValue={0} />*/}
+              {/*      <div className={styles.price} defaultValue={100000} />*/}
+              {/*      <div className={styles.outputNum} />*/}
+              {/*    </div>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
             </div>
             <div className={styles.mvDetails}>
               <Image
-                src={showtime?.movie?.image}
+                src={movie?.image}
                 alt="dd"
                 width={100}
                 height={250}
               ></Image>
-              <h5>Tên: {showtime?.movie?.title}</h5>
-              <h5>Rạp : {theatreName}</h5>
+              <h5>Tên: {movie?.title}</h5>
+              <h5>Rạp : {schedule?.theatre}</h5>
               <h5>
-                Suất chiếu : {time} | {}
+                Suất chiếu : {time}
               </h5>
               <div className={styles.cost}>
                 <h5>Tổng: {totalPrice} </h5>
@@ -572,19 +579,20 @@ export default function Seat() {
                 QUAY LẠI
               </button>
               {/* <button onClick={()=> handlecreatebtn()}>taoj cr</button> */}
-              <button onClick={() => handleBookingBtn()}>THANH TOÁN</button>
+              <button onClick={() => vietnamBankAccountPattern.test(bankAccountNumber) ? handleBookingBtn() : {}}>THANH TOÁN</button>
             </div>
           </div>
         </>
       )}
 
-      <PopupResult
-        message={noti}
-        button={["Về trang chủ", "Xem lại vé"]}
-        urls={["/", `/User/reservation/${reser}`]}
-        modalOpen={modelOpen}
-        setModalOpen={setModalOpen}
-      />
+
+      {/*<PopupResult*/}
+      {/*  message={noti}*/}
+      {/*  button={["Về trang chủ", "Xem lại vé"]}*/}
+      {/*  urls={["/", `/User/reservation/${reser}`]}*/}
+      {/*  modalOpen={modelOpen}*/}
+      {/*  setModalOpen={setModalOpen}*/}
+      {/*/>*/}
     </div>
   );
 }

@@ -103,7 +103,9 @@ export default function User (){
                             <td>{movie.theatre}</td> 
                             <td>{movie.date}</td> 
                             <td>{movie.time}</td>
-                            <td>{movie.seatPosition}</td> 
+                            <td>{movie.seatPosition.map((pos:any, index:number) =>{
+                                return pos + " ";
+                            })}</td>
                             <td><a href={`/User/reservation/${movie.reservationId}`}>Chi tiết</a></td>
                             </tr>
                             </table>

@@ -1,6 +1,8 @@
 const Screen = require('../model/screen');
 const Schedule = require('../model/schedule');
 const BookedSeat = require('../model/bookedSeat');
+const Movie = require('../model/movie');
+const Showtime = require('../model/showtime');
 
 const ScreenController = {
     getScreen: async(req, res) => {
@@ -45,6 +47,9 @@ const ScreenController = {
             }
 
             let screen = await Screen.findOne({ scheduleId, time });
+            let schedule = await  Schedule.findById(scheduleId);
+            let showtime = await Showtime.findById(schedule.showtimeId);
+            let movie = await  Movie.findById(showtime.movieId);
             if (!screen) {
                 // screen = new Screen({
                 //     scheduleId,
@@ -56,7 +61,8 @@ const ScreenController = {
                 return res.status(404).json({ error: 'screen is not found' });
             }
 
-            res.status(200).json(screen);
+
+            res.status(200).json({screen,schedule, movie});
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Error retrieving screen' });
