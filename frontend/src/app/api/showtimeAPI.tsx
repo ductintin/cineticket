@@ -42,6 +42,10 @@ const showtimeAPI = {
   getAllScheduleByMovieIdAnDate: function(movieId: string){
     const url = `${apiV1}/schedules/get/${movieId}`
     return get(url, "")
+  },
+  getScheduleByShowtimeIdAndDate: function(showtimeId: string, date: string, theatre: string){
+    const url = `${apiV1}/schedules?showtimeId=${showtimeId}&date=${date}&theatre=${theatre}`
+    return get(url, "")
   }
 };
 

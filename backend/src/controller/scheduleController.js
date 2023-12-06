@@ -48,7 +48,7 @@ const scheduleController = {
                 showtimeId,
                 date: scheduleDate,
                 theatre,
-                time: { $in: scheduleTimes },
+                // time: { $in: scheduleTimes },
             });
 
             if (existingSchedule) {
@@ -89,15 +89,16 @@ const scheduleController = {
     // done and checked
     getByShowtimeIdAndDate: async(req, res) => {
         try {
-            const { showtimeId, date } = req.query; // Retrieve from req.query instead of req.body
+            const { showtimeId, date, theatre } = req.query; // Retrieve from req.query instead of req.body
 
-            const [year, month, day] = date.split('/').map(Number);
+            const [year, month, day] = date.split('-').map(Number);
             const scheduleDate = new Date(year, month - 1, day);
             scheduleDate.setHours(scheduleDate.getHours() + 7); // Add GMT+7 offset
 
-            const schedules = await Schedule.find({
+            const schedules = await Schedule.findOne({
                 showtimeId,
                 date: { $eq: scheduleDate },
+                theatre
             });
 
             res.status(200).json(schedules);
@@ -215,6 +216,9 @@ const scheduleController = {
                 const parsedDate = new Date(date); // Convert date parameter to Date object
                 const times = await Schedule.distinct('time', { showtimeId, theatre, date: parsedDate });
                 res.status(200).json(times);
+            // }else if(!showtimeId && !theatre && !date && !timeSlot){
+            //     const schedule = await Schedule.find({showtimeId, time: timeSlot});
+            //     res.status(200).json(schedule);
             } else {
                 throw new Error('Invalid parameters');
             }

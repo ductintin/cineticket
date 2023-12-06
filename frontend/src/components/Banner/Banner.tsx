@@ -166,7 +166,16 @@ export default function Banner() {
 
   const dispatch = useDispatch;
   const router = useRouter();
-  const handleBuyBtn = () => {
+
+  const [scheduleId, setScheduleId] = useState("");
+
+  const handleBuyBtn = async (showtimeId: string) => {
+
+    const res = await showtimeAPI.getScheduleByShowtimeIdAndDate(selectedShowtimeId, selectedDate, selectedTheatreId);
+    if(res!=null){
+      setScheduleId(res.data._id);
+    }
+
     const newBooking = {
       showtimeId: selectedShowtimeId,
       date: selectedDate,
@@ -174,9 +183,10 @@ export default function Banner() {
       time: selectedTime,
     };
 
-    //const link = `/screen?scheduleId=${scheduleId}&date=${selectedDate}`;
+    const link = `/screen?scheduleId=${res.data._id}&date=${selectedTime}`;
+    router.push(link);
 
-    bookingMovie(newBooking, dispatch, router);
+    //bookingMovie(newBooking, dispatch, router);
   };
 
   return (
@@ -217,7 +227,7 @@ export default function Banner() {
       {/* Form begin */}
       <div className={styles.opt}>
         <label>MUA VÉ NHANH</label>
-        <form action="./screen">
+        <form>
           <select name="showtimeId" onChange={handleMovieChange}>
             <option value="" hidden>
               Chọn phim
@@ -263,9 +273,9 @@ export default function Banner() {
           </select>
           {/* <button type="submit" className={styles.buy_btn}>Mua vé</button> */}
           <button
-            type="submit"
+            type="button"
             className={styles.buy_btn}
-            onClick={() => handleBuyBtn()}
+            onClick={() => handleBuyBtn(selectedShowtimeId)}
             disabled={isButtonDisabled()}
           >
             Mua vé
