@@ -16,7 +16,7 @@ export default function User (){
   const [movies, pickMovies] = useState<any[]>([]);
 
   const reser = async () => {
-    const Reservation = await movieAPI.getIdTest();
+    const Reservation = await movieAPI.getAllReservationByUserId(user?.user._id,user?.token);
     console.log("res: ", Reservation);
     pickMovies(Reservation.data.tickets); // Update movies state with the tickets array
   };
@@ -81,8 +81,7 @@ export default function User (){
                 <Image className={styles.pic} src={movie_img} alt='er'></Image>
             </div>
 
-            {user?.user?.role === "user" && <div className={styles.body}>
-                
+            { <div className={styles.body}>
                     <div className={styles.Box2}>
                     <div className={styles.hbox}>
 
@@ -105,7 +104,7 @@ export default function User (){
                             <td>{movie.date}</td> 
                             <td>{movie.time}</td>
                             <td>{movie.seatPosition}</td> 
-                            <td><a href="fb.com">Chi tiết</a></td> 
+                            <td><a href={`/User/reservation/${movie.reservationId}`}>Chi tiết</a></td>
                             </tr>
                             </table>
                         </div>

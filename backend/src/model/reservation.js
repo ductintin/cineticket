@@ -10,6 +10,15 @@ const reservationSchema = new Schema({
   showtimeId: {
     type: Schema.Types.ObjectId,
     ref: 'Showtime',
+    required: false
+  },
+  scheduleId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Schedule',
+    required: true
+  },
+  time: {
+    type: String,
     required: true
   },
   seats:

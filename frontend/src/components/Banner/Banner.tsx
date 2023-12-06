@@ -173,6 +173,9 @@ export default function Banner() {
       theatreName: selectedTheatreId,
       time: selectedTime,
     };
+
+    //const link = `/screen?scheduleId=${scheduleId}&date=${selectedDate}`;
+
     bookingMovie(newBooking, dispatch, router);
   };
 

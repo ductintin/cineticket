@@ -10,13 +10,13 @@ const reservationController = {
   createReservation: async (req, res) => {
     try {
       // Validate the request body
-      const { userId, showtimeId, seats, totalPrice } = req.body;
+      const { userId, scheduleId, time, seats, totalPrice } = req.body;
       const errors = [];
       if (!userId) {
         errors.push('userId is required');
       }
-      if (!showtimeId) {
-        errors.push('showtimeId is required');
+      if (!scheduleId) {
+        errors.push('scheduleId is required');
       }
       if (!seats) {
         errors.push('seats is required');
@@ -36,11 +36,12 @@ const reservationController = {
       // Create the reservation
       const reservation = new Reservation({
         userId,
-        showtimeId,
+        scheduleId,
+        time,
         seats,
         totalPrice,
         expirationTime,
-        status: 'Pending',
+        status: 'Booked',
       });
       await reservation.save();
 
@@ -174,7 +175,8 @@ const reservationController = {
             time: screen.time,
             price: price,
             seatPosition: position,
-            theatre: schedule.theatre
+            theatre: schedule.theatre,
+            reservationId:reservation._id
           };
   
           tickets.push(ticket);

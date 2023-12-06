@@ -221,18 +221,28 @@ export default function Seat() {
     selectedSeats.length * price[0] + selectedDoubleSeats.length * price[1]
   );
   const handleBookingBtn = async () => {
-    setBookedSeats([]);
+    //setBookedSeats([]);
     console.log("dounle", bookedseats);
 
     console.log("dounle 2", bookedseats);
     setTotalPrice(
       selectedSeats.length * price[0] + selectedDoubleSeats.length * price[1]
     );
+
+    if (selectedDoubleSeats.length !== 0 || selectedSeats.length !== 0) {
+      const res = await setBookedSeatss(
+          screenInfo._id,
+          selectedSeats.concat(selectedDoubleSeats)
+      );
+    }
+
     const newReservation = {
       userId: userId,
       showtimeId: showtimeId,
+      scheduleId: scheduleId,
       seats: bookedseats,
       totalPrice: totalPrice,
+      time: time
     };
     console.log(newReservation);
     console.log("dounle 3", bookedseats);
@@ -269,16 +279,12 @@ export default function Seat() {
     setIsChoosingSeat(0);
     setBookedSeats([]);
     console.log("dounle", bookedseats);
-    if (selectedDoubleSeats.length !== 0 || selectedSeats.length !== 0) {
-      const res = await setBookedSeatss(
-        screenInfo._id,
-        selectedSeats.concat(selectedDoubleSeats)
-      );
-    }
+
     console.log("dounle", selectedDoubleSeats);
 
     console.log("dounle 2", bookedseats);
   };
+
   return (
     <div className="">
       {isChoosingSeat ? (
