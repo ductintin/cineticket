@@ -55,7 +55,7 @@ export default function Home() {
       <Banner/>
       <Nowshowing/>
       <Upcoming/>
-      <Filmcomment/>
+      {/*<Filmcomment/>*/}
       {/* <Idfilm/> */}
       </>
   

@@ -49,9 +49,9 @@ export default function ListFilm() {
           ))}
         </div>
 
-        <div className={styles.dragon}>
-                <img src={blp.src} alt="Movie" className="mx-auto"/>
-            </div>
+        {/*<div className={styles.dragon}>*/}
+        {/*        <img src={blp.src} alt="Movie" className="mx-auto"/>*/}
+        {/*    </div>*/}
       </div>
     </>
   );

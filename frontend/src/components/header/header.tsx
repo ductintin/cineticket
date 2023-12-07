@@ -72,7 +72,7 @@ export default function Header () {
                     <Image src={logo} alt='' className={styles.logo}/>
                 </div>
                 <div className={styles.img}></div>
-                <SearchComp/>
+                {/*<SearchComp/>*/}
           
                 {userData? 
                 (
@@ -145,7 +145,7 @@ export default function Header () {
            
             {/* <Popup_Oauth/> */}
 
-            <Divider />
+            {/*<Divider />*/}
         </div>
         
     )
