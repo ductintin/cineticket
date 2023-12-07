@@ -41,7 +41,7 @@ export default function ListFilm() {
               <div className={styles.upper_text}>{movie.movieTitle}</div>
                 <button
                 className={`${styles.btn_more} ${styles.upper_text}`}
-                onClick={() => handleMovieClick(movie.movieId)} // Pass movie.showtimeId as an argument
+                onClick={() => handleMovieClick(movie.movieId._id)} // Pass movie.showtimeId as an argument
               >
                 Xem chi tiết
               </button>
@@ -49,9 +49,9 @@ export default function ListFilm() {
           ))}
         </div>
 
-        <div className={styles.dragon}>
-                <img src={blp.src} alt="Movie" className="mx-auto"/>
-            </div>
+        {/*<div className={styles.dragon}>*/}
+        {/*        <img src={blp.src} alt="Movie" className="mx-auto"/>*/}
+        {/*    </div>*/}
       </div>
     </>
   );

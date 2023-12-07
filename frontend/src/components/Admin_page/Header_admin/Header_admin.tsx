@@ -18,8 +18,8 @@ export default function Header_admin (){
                     <input type="text" placeholder="Search here . . ." className={styles.input} />
                 </div> */}
                 <div className={styles.avatar}>
-                    <Image src={avt_ad} alt="" width={20} height={20}/>
-                    Hi, {user?.user?.name}
+                    {/*<Image src={avt_ad} alt="" width={20} height={20}/>*/}
+                    {user?.user?.name}
                 </div>
             </div>
             {/* navigate */}

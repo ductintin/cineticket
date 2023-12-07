@@ -33,9 +33,9 @@ export default function MoviesPage({ params, searchParams }: Props) {
   const [movie, setMovie] = useState<movieInterface>();
   const [schedule, setSchedule] = useState<any[]>([]);
   const currentTime = new Date();
-  const hours = currentTime.getHours();
-  const minutes = currentTime.getMinutes();
-  const time = hours + ":" + minutes;
+  const hours = currentTime.getHours().toString().padStart(2, '0');
+  const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+  const time = `${hours}:${minutes}`;
   console.log("time", time);
 
   const fetchMovie = async () => {
@@ -336,18 +336,20 @@ export default function MoviesPage({ params, searchParams }: Props) {
                 <div className={s.type}>2D - Phụ đề</div>
                 <div className={s.alltime}>
                   {sh.time.map((shh:any, i:string) => (
+                      console.log("ss", shh > time),
+                      console.log("time", shh.time),
                     <div
                       style={{
-                        border: ((new Date(sh.date).getDate() > currentTime.getDate() ? "1px solid #ccc" : ((new Date(sh.date).getDate() == currentTime.getDate()) ? (shh.time > time ? "1px solid #ccc": "") : ""))),
+                        border: ((new Date(sh.date).getDate() > currentTime.getDate() ? "1px solid #ccc" : ((new Date(sh.date).getDate() == currentTime.getDate() && shh > time) ? "1px solid #ccc" : ""))),
                         borderRadius: "4px",
                         padding: "10px",
                         margin: "10px",
-                        background: ((new Date(sh.date).getDate() > currentTime.getDate() ? "" : ((new Date(sh.date).getDate() == currentTime.getDate()) ? (shh.time > time ? "": "#c5d3e0") : "#c5d3e0"))),
+                        background: ((new Date(sh.date).getDate() > currentTime.getDate() ? "" : ((new Date(sh.date).getDate() == currentTime.getDate() && shh > time) ? "": "#c5d3e0"))),
                       }}
                       key={i}
                       className={shh}
                       onClick={() =>
-                        ((new Date(sh.date).getDate() > currentTime.getDate() ? handleBook(sh._id, shh) : ((new Date(sh.date).getDate() == currentTime.getDate()) ? (shh.time > time ? handleBook(sh._id, shh): {}) : {})))
+                        ((new Date(sh.date).getDate() > currentTime.getDate() ? handleBook(sh._id, shh) : ((new Date(sh.date).getDate() == currentTime.getDate() && shh > time) ? handleBook(sh._id, shh): {})))
 
                         // ((new Date(sh.date) > currentTime) && (sh.time > time))
                         //   ? {}

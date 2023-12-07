@@ -5,16 +5,18 @@ import {movie_img} from '@/assets/imgs'
 import Image from 'next/image'
 import movieAPI from "@/app/api/movieAPI";
 import { movieInterface } from "@/app/api/apiResponse";
-import { useSelector } from "react-redux";
-import {Card, Form, Input, Table} from "antd";
+import {useDispatch, useSelector} from "react-redux";
+import {Button, Card, Form, Input, Table} from "antd";
 import {Content} from "antd/es/layout/layout";
-
+import { logOut } from "@/redux/apiRequests";
+import {useRouter} from "next/navigation";
+import axios from "axios";
 export default function User (){
 
   const user = useSelector((state: any) => state.auth.login.currentUser);
   console.log(user); // Kiểm tra thông tin người dùng trong console log
-
-
+    const dispatch =useDispatch()
+    const router =useRouter()
   const [movies, pickMovies] = useState<any[]>([]);
     const [dataSource, setDataSource] = useState<any[]>([]);
 
@@ -107,6 +109,9 @@ export default function User (){
     ];
 
 
+    const logout = () =>{
+        logOut(dispatch,user?.user?._id,user?.token, axios,router);
+    }
 
     return(
         <>
@@ -126,7 +131,7 @@ export default function User (){
                     <Form.Item label="Username" >
                         <Input value={user?.user?.username} disabled={true}/>
                     </Form.Item>
-
+                    <Button onClick={logout} className="bg-red-400">Đăng xuất</Button>
                 </Form>
                 <Content className="bg-amber-500 text-center text-2xl">Lịch sử đặt vé</Content>
                 <Table columns={columns} dataSource={dataSource} />
