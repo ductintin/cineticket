@@ -2,7 +2,7 @@
     background-color: #E9F8F9;
     color: black;
     width: 100vw;
-    height: 200vh;
+    min-height: 100vh;
 }
 
 .row {
@@ -88,7 +88,7 @@
     position: absolute;
     display: flex;
     width: 90%;
-    height: 85%;
+    height: 45%;
     bottom: 0;
     border-radius: 40px;
     margin-left:5% ;

@@ -1,7 +1,7 @@
 "use client"
 import s from './Film_manager.module.css'
 import React, { useState, useEffect } from 'react'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton, TextField, MenuItem, Select } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TextField, MenuItem, Select } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -20,6 +20,9 @@ import showtimeAPI from '@/app/api/showtimeAPI';
 import DatePicker from '@mui/lab/DatePicker';
 import { format } from 'date-fns'; // Import thư viện date-fns để định dạng ngày tháng
 import { showtimeInterface } from '@/app/api/apiResponse';
+import {Button, Card, Form, Input, Layout} from "antd";
+import Sider from "antd/es/layout/Sider";
+import {Content} from "antd/es/layout/layout";
 
 
 type Props = {
@@ -414,347 +417,500 @@ export default function Film_manager ({params, searchParams}: Props) {
         return formattedDate;
       };
 
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 20 },
+      sm: { span: 3 },
+    },
+    wrapperCol: {
+      xs: { span: 20 },
+      sm: { span: 20 },
+    },
+  };
+
     return (
-    <div className={s.body}>
-      <div className={s.container}>
-        <div className={s.leftcolumn}>
-          <div className={s.a1}>
-            {
-              (selectedImage == null) ?
-                  <div></div>:
-                  <img src={selectedImage} alt="Mô tả ảnh"/>
-            }
-          </div>
-          {/*return (*/}
-          <div>
-            <input type="file" onChange={handleFileChange} />
-          </div>
-          {/*);*/}
-        </div>
 
-        <div className={s.rightcolumn}>
-          <div className={s.title}>
-            <div>
-              {isEditing ? (
-                  <input className={s.name} type="text" value={text?.title} />
-              ) : (
-                  <div>
-                    {
-                      (!films ) ?
-                          <div></div>:<div className={s.name}>{films.title}</div>
-                    }
-                  </div>
-              )}
-            </div>
-          </div>
-        <div className={s.flex}>
-          <div className={s.info}> Title: </div>
-          <div>
-            {isEditing ? (
-              <input className={s.data} type="text" value={text?.title} onChange={handleInputChange1} />
-            ) : (
+        <>
+          <Layout className="flex-row">
+            <Sider width={250}>
+
+              {
+                (selectedImage == null) ?
+                    <div></div>:
+                    <img src={selectedImage} alt="Mô tả ảnh"/>
+              }
+
+              {/*return (*/}
               <div>
-                {
-                  (!films ) ?
-                  <div></div>:<div className={s.data}>{films.title}</div>
-                }
+                <input type="file" onChange={handleFileChange} />
               </div>
-            )}
-          </div>
-        </div>
-        <div className={s.flex}>
-          <div className={s.info}> Genre: </div>
-          <div>
-            {isEditing ? (
-              <input className={s.data} type="text" value={text?.genre} onChange={handleInputChange2} />
-            ) : (
-              <div>
-              {
-                (!films ) ?
-                <div></div>:<div className={s.data}>{films.genre.join(", ")}</div>
-              }
-            </div>
-            )}
-          </div>
-        </div>
-        <div className={s.flex}>
-          <div className={s.info}> Director: </div>
-          <div>
-            {isEditing ? (
-              <input className={s.data} type="text" value={text?.director} onChange={handleInputChange3} />
-            ) : (
-              <div>
-              {
-                (!films ) ?
-                <div></div>:<div className={s.data}>{films.director}</div>
-              }
-            </div>
-            )}
-          </div>
-        </div>
-        <div className={s.flex}>
-          <div className={s.info}> Cast: </div>
-          <div>
-            {isEditing ? (
-              <input className={s.data} type="text" value={text?.cast} onChange={handleInputChange4} />
-            ) : (
-              <div>
-              {
-                (!films ) ?
-                <div></div>:<div className={s.data}>{films.cast.join(", ")}</div>
-              }
-            </div>
-            )}
-          </div>
-        </div>
-        <div className={s.flex}>
-          <div className={s.info}> Duration: </div>
-          <div>
-            {isEditing ? (
-              <input className={s.data} type="text" value={text?.duration} onChange={handleInputChange5} />
-            ) : (
-              <div>
-              {
-                (!films ) ?
-                <div></div>:<div className={s.data}>{films.duration}</div>
-              }
-            </div>
-            )}
-          </div>
-        </div>
-        <div className={s.flex}>
-          <div className={s.info}> Language: </div>
-          <div>
-            {isEditing ? (
-              <input className={s.data} type="text" value={text?.language} onChange={handleInputChange6} />
-            ) : (
-              <div>
-              {
-                (!films ) ?
-                <div></div>:<div className={s.data}>{films.language.join(", ")}</div>
-              }
-            </div>
-            )}
-          </div>
-        </div>
-        <div className={s.flex}>
-          <div className={s.info}> Rating: </div>
-          <div>
-            {isEditing ? (
-              <input className={s.data} type="text" value={text?.rating} onChange={handleInputChange7} />
-            ) : (
-              <div>
-              {
-                (!films ) ?
-                <div></div>:<div className={s.data}>{films.rating}</div>
-              }
-            </div>
-            )}
-          </div>
-        </div>
-        <div className={s.flex}>
-          <div className={s.info}> Description: </div>
-          <div>
-            {isEditing ? (
-              <input className={s.data} type="text" value={text?.description} onChange={handleInputChange8} />
-            ) : (
-              <div>
-              {
-                (!films ) ?
-                <div></div>:<div className={s.data}>{films.description}</div>
-              }
-            </div>
-            )}
-          </div>
-        </div>
+              {/*);*/}
 
+            </Sider>
+              <Content>
+                      <Form {...formItemLayout} className="mx-10 my-10">
+                          <Form.Item label="Title">
+                              {isEditing ? (
+                                  <Input value={films?.title}  onChange={handleInputChange1}/>
+                                            ) : (
+                                                <div>
+                                                  {
+                                                    (!films ) ?
+                                                        <div></div> : <Input value={films?.title} disabled={true}/>
+                                                  }
+                                                </div>
+                                            )}
+                          </Form.Item>
+                          <Form.Item label="Genre">
+                              {isEditing ? (
+                                  <Input value={films?.genre} onChange={handleInputChange2}/>
+                                          ) : (
+                                            <div>
+                                            {
+                                              (!films ) ?
+                                              <div></div>:<Input value={films?.genre.join(", ")} disabled={true}/>
+                                            }
+                                            </div>
+                                  )}
+                          </Form.Item>
+                          <Form.Item label="Director">
+                              {isEditing ? (
+                              <Input value={films?.director} onChange={handleInputChange3}/>
+                              ) : (
+                              <div>
+                                  {
+                                      (!films ) ?
+                                          <div></div>:<Input value={films?.director} disabled={true}/>
+                                  }
+                              </div>
+                              )}
+                          </Form.Item>
+                          <Form.Item label="Cast">
+                              {isEditing ? (
+                                  <Input value={films?.cast} onChange={handleInputChange4}/>
+                              ) : (
+                                  <div>
+                                      {
+                                          (!films ) ?
+                                              <div></div>:<Input value={films?.cast.join(", ")} disabled={true}/>
+                                      }
+                                  </div>
+                              )}
+                          </Form.Item>
+                          <Form.Item label="Duration">
+                              {isEditing ? (
+                                  <Input value={films?.duration} onChange={handleInputChange5}/>
+                              ) : (
+                                  <div>
+                                      {
+                                          (!films ) ?
+                                              <div></div>:<Input value={films?.duration} disabled={true}/>
+                                      }
+                                  </div>
+                              )}
+                          </Form.Item>
+                          <Form.Item label="Language">
+                              {isEditing ? (
+                                  <Input value={films?.language} onChange={handleInputChange6}/>
+                              ) : (
+                                  <div>
+                                      {
+                                          (!films ) ?
+                                              <div></div>:<Input value={films?.language.join(", ")} disabled={true}/>
+                                      }
+                                  </div>
+                              )}
+                          </Form.Item>
+                          <Form.Item label="Rating">
+                              {isEditing ? (
+                                  <Input value={films?.rating} onChange={handleInputChange7}/>
+                              ) : (
+                                  <div>
+                                      {
+                                          (!films ) ?
+                                              <div></div>:<Input value={films?.rating} disabled={true}/>
+                                      }
+                                  </div>
+                              )}
+                          </Form.Item>
+                          <Form.Item label="Description">
+                              {isEditing ? (
+                                  <Input value={films?.description} onChange={handleInputChange8}/>
+                              ) : (
+                                  <div>
+                                      {
+                                          (!films ) ?
+                                              <div></div>:<Input value={films?.description} disabled={true}/>
+                                      }
+                                  </div>
+                              )}
+                          </Form.Item>
+                      </Form>
 
-
-        <Button variant="contained" startIcon={<EditIcon />} onClick={handleEditClick}>
-          Edit
-        </Button>
-        <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={handleSaveClick}>
-        Save
-        </Button>
-        </div>
-      </div>
-
-
-      <div className={s.schedules}> Add show time </div>
-      <TableContainer component={Paper}>
-        <Table>
-
-          <TableHead>
-            <TableRow>
-              <TableCell style={{ width: '20px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Id</TableCell>
-              <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>StartDate</TableCell>
-              <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>EndDate</TableCell>
-              <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Active</TableCell>
-            </TableRow>
-          </TableHead>
-          {
-            showtime != null ? (
-                <TableBody>
-              <TableRow key={showtime?.id}>
-                <TableCell style={{textAlign: 'center'}}>{showtime?.id}</TableCell>
-                <TableCell style={{textAlign: 'center'}}>{showtime?.dateRange.start}</TableCell>
-                <TableCell style={{textAlign: 'center'}}>{showtime?.dateRange.end}</TableCell>
-                <TableCell style={{textAlign: 'center'}}>{showtime?.isActive.toString()}</TableCell>
-                <TableCell style={{textAlign: 'center'}}><IconButton onClick={() => handleEditShowTime(showtime)} aria-label="delete">
-                  <EditIcon />
-                </IconButton></TableCell>
-              </TableRow>
-            </TableBody>) : (<p>Chưa có lịch chiếu</p>)
-          }
-
-          <TableBody>
-            {data2.map(row => (
-                <TableRow key={row.No}>
-                  <TableCell style={{textAlign: 'center'}}>{row.No}</TableCell>
-
-                  <TableCell>
-                    <input
-                        className={s.input}
-                        type="date"
-                        min="2023-06-01" // Ngày tối thiểu cho phép chọn
-                        max="2024-06-30" // Ngày tối đa cho phép
-                        // value = {isEditShowtime? convertToDateTime(showtime?.dateRange.start as string) : ''}
-                        onChange={e => handleChangeFieldShowTime(row.No, 'startDate', e.target.value)}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <input
-                        className={s.input}
-                        type="date"
-                        min="2023-06-01" // Ngày tối thiểu cho phép chọn
-                        max="2024-06-30" // Ngày tối đa cho phép
-                        // value = {isEditShowtime? convertToDateTime(showtime?.dateRange.end as string) : ''}
-                        onChange={e => handleChangeFieldShowTime(row.No, 'endDate', e.target.value)}
-                    />
-                  </TableCell>
-
-                  <TableCell>
-                    <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => handleSaveShowTime(row.No)}>
-                      Save
-                    </Button>
-                  </TableCell>
-
-                  <TableCell>
-                    <IconButton onClick={() => handleDeleteRowShowTime(row.No)} aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        {/*style={{ display: shouldDisplay ? 'block' : 'none' }}*/}
-        <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleAddRowShowTime}>
-          Add Row
-        </Button>
-      </TableContainer>
-
-        <div className={s.schedules}> All schedules </div>
-        <TableContainer component={Paper}>
-          <Table>
-
-            <TableHead>
-              <TableRow>
-                <TableCell  style={{ width: '200px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center' }}>ID</TableCell>
-                <TableCell  style={{ width: '100px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Date</TableCell>
-                <TableCell  style={{ width: '100px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Theatre</TableCell>
-                <TableCell  style={{ width: '200px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Time</TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {sche.map(row => (
-                <TableRow key={row._id}>
-                  <TableCell style={{textAlign: 'center'}}>{row._id}</TableCell>
-                  <TableCell style={{textAlign: 'center'}}>{(() => {
-                    // @ts-ignore
-                    const variable = new Date(row.date);
-                    return variable.getDate() + "/" + (variable.getMonth()+ 1) + "/" + variable.getFullYear();
-                  })()}</TableCell>
-                  <TableCell style={{textAlign: 'center'}}>{row.theatre}</TableCell>
-                  <TableCell style={{textAlign: 'center'}}>{row.time.join(", ")}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableBody>
-              {data.map(row => (
-                  <TableRow key={row.No}>
-                    <TableCell style={{textAlign: 'center'}}>{row.No}</TableCell>
-
-                    <TableCell>
-                      <input
-                          className={s.input}
-                          type="date"
-                          min="2023-06-01" // Ngày tối thiểu cho phép chọn
-                          max="2024-06-30" // Ngày tối đa cho phép
-                          onChange={e => handleChangeField(row.No, 'date', e.target.value)}
-                      />
-                    </TableCell>
-
-                    <TableCell>
-                      <Select
-                          value={row.theatre || "Chọn rạp"}
-                          onChange={e => handleChangeField(row.No, 'theatre', e.target.value)}
-                      >
-                        <MenuItem value="Chọn rạp" disabled>
-                          Chọn rạp
-                        </MenuItem>
-                        <MenuItem value="Happy Us Theatre Quận 1">Happy Us Theatre Quận 1</MenuItem>
-                        <MenuItem value="Happy Us Theatre Quận 2">Happy Us Theatre Quận 2</MenuItem>
-                        <MenuItem value="Happy Us Theatre Quận 3">Happy Us Theatre Quận 3</MenuItem>
-                        <MenuItem value="Happy Us Theatre Quận 4">Happy Us Theatre Quận 4</MenuItem>
-                        <MenuItem value="Happy Us Theatre Quận 5">Happy Us Theatre Quận 5</MenuItem>
-                      </Select>
-                    </TableCell>
-
-                    <TableCell>
-                      <Select
-                          multiple
-                          value={row.time || ["a"]}
-                          onChange={e => handleChangeField(row.No, 'time', e.target.value)}
-                      >
-                        <MenuItem disabled value={["a"]} >
-                          Chọn giờ
-                        </MenuItem>
-                        {availableTimes.map(time => (
-                            <MenuItem key={time} value={time}>{time}</MenuItem>
-                        ))}
-                      </Select>
-
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => handleSaveSche(row.No)}>
-                        Save
+                  <Layout className="flex-row mx-20">
+                      <Button icon={<EditIcon />} onClick={handleEditClick}>
+                          Edit
                       </Button>
-                    </TableCell>
+                      <Button icon={<SaveIcon />} onClick={handleSaveClick}>
+                          Save
+                      </Button>
+                  </Layout>
 
-                    <TableCell>
-                      <IconButton onClick={() => handleDeleteRow(row.No)} aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </Content>
+          </Layout>
 
-        {/*<Button className= {s.edit} variant="contained" startIcon={<BeforeIcon />} onClick={handleBefore}>*/}
-        {/*  BEFORE*/}
-        {/*</Button>*/}
-        {/*<Button className= {s.edit} variant="contained" startIcon={<NextIcon />} onClick={handleNext}>*/}
-        {/*NEXT*/}
-        {/*</Button>*/}
-      <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleAddRow}>
-        Add Row
-      </Button>
-      <ToastContainer />
-    </div>
+            <Layout>
+                <div className={s.schedules}> Add show time </div>
+                <TableContainer component={Paper}>
+                    <Table>
+
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{ width: '20px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Id</TableCell>
+                                <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>StartDate</TableCell>
+                                <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>EndDate</TableCell>
+                                <TableCell style={{ width: '300px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Active</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        {
+                            showtime != null ? (
+                                <TableBody>
+                                    <TableRow key={showtime?.id}>
+                                        <TableCell style={{textAlign: 'center'}}>{showtime?.id}</TableCell>
+                                        <TableCell style={{textAlign: 'center'}}>{ new Date(showtime?.dateRange.start).toLocaleDateString("en-GB")}</TableCell>
+                                        <TableCell style={{textAlign: 'center'}}>{new Date(showtime?.dateRange.end).toLocaleDateString("en-GB")}</TableCell>
+                                        <TableCell style={{textAlign: 'center'}}>{showtime?.isActive.toString()}</TableCell>
+                                        <TableCell style={{textAlign: 'center'}}><IconButton onClick={() => handleEditShowTime(showtime)} aria-label="delete">
+                                            <EditIcon />
+                                        </IconButton></TableCell>
+                                    </TableRow>
+                                </TableBody>) : (<p>Chưa có lịch chiếu</p>)
+                        }
+
+                        <TableBody>
+                            {data2.map(row => (
+                                <TableRow key={row.No}>
+                                    <TableCell style={{textAlign: 'center'}}>{row.No}</TableCell>
+
+                                    <TableCell>
+                                        <input
+                                            className={s.input}
+                                            type="date"
+                                            min="2023-06-01" // Ngày tối thiểu cho phép chọn
+                                            max="2024-06-30" // Ngày tối đa cho phép
+                                            // value = {isEditShowtime? convertToDateTime(showtime?.dateRange.start as string) : ''}
+                                            onChange={e => handleChangeFieldShowTime(row.No, 'startDate', e.target.value)}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <input
+                                            className={s.input}
+                                            type="date"
+                                            min="2023-06-01" // Ngày tối thiểu cho phép chọn
+                                            max="2024-06-30" // Ngày tối đa cho phép
+                                            // value = {isEditShowtime? convertToDateTime(showtime?.dateRange.end as string) : ''}
+                                            onChange={e => handleChangeFieldShowTime(row.No, 'endDate', e.target.value)}
+                                        />
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <Button icon={<SaveIcon />} onClick={() => handleSaveShowTime(row.No)}>
+                                            Save
+                                        </Button>
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <IconButton onClick={() => handleDeleteRowShowTime(row.No)} aria-label="delete">
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    {/*style={{ display: shouldDisplay ? 'block' : 'none' }}*/}
+                    <Button icon={<AddIcon />} onClick={handleAddRowShowTime}>
+                        Add Row
+                    </Button>
+                </TableContainer>
+            </Layout>
+
+            <Layout>
+
+                <div className={s.schedules}> All schedules </div>
+                <TableContainer component={Paper}>
+                    <Table>
+
+                        <TableHead>
+                            <TableRow>
+                                <TableCell  style={{ width: '200px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center' }}>ID</TableCell>
+                                <TableCell  style={{ width: '100px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Date</TableCell>
+                                <TableCell  style={{ width: '100px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Theatre</TableCell>
+                                <TableCell  style={{ width: '200px', fontWeight: 'bold', fontSize: '20px', textAlign: 'center'}}>Time</TableCell>
+                            </TableRow>
+                        </TableHead>
+
+                        <TableBody>
+                            {sche.map(row => (
+                                <TableRow key={row._id}>
+                                    <TableCell style={{textAlign: 'center'}}>{row._id}</TableCell>
+                                    <TableCell style={{textAlign: 'center'}}>{(() => {
+                                        // @ts-ignore
+                                        const variable = new Date(row.date);
+                                        return variable.getDate() + "/" + (variable.getMonth()+ 1) + "/" + variable.getFullYear();
+                                    })()}</TableCell>
+                                    <TableCell style={{textAlign: 'center'}}>{row.theatre}</TableCell>
+                                    <TableCell style={{textAlign: 'center'}}>{row.time.join(", ")}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                        <TableBody>
+                            {data.map(row => (
+                                <TableRow key={row.No}>
+                                    <TableCell style={{textAlign: 'center'}}>{row.No}</TableCell>
+
+                                    <TableCell>
+                                        <input
+                                            className={s.input}
+                                            type="date"
+                                            min="2023-06-01" // Ngày tối thiểu cho phép chọn
+                                            max="2024-06-30" // Ngày tối đa cho phép
+                                            onChange={e => handleChangeField(row.No, 'date', e.target.value)}
+                                        />
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <Select
+                                            value={row.theatre || "Chọn rạp"}
+                                            onChange={e => handleChangeField(row.No, 'theatre', e.target.value)}
+                                        >
+                                            <MenuItem value="Chọn rạp" disabled>
+                                                Chọn rạp
+                                            </MenuItem>
+                                            <MenuItem value="Happy Us Theatre Quận 1">Happy Us Theatre Quận 1</MenuItem>
+                                            <MenuItem value="Happy Us Theatre Quận 2">Happy Us Theatre Quận 2</MenuItem>
+                                            <MenuItem value="Happy Us Theatre Quận 3">Happy Us Theatre Quận 3</MenuItem>
+                                            <MenuItem value="Happy Us Theatre Quận 4">Happy Us Theatre Quận 4</MenuItem>
+                                            <MenuItem value="Happy Us Theatre Quận 5">Happy Us Theatre Quận 5</MenuItem>
+                                        </Select>
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <Select
+                                            multiple
+                                            value={row.time || ["a"]}
+                                            onChange={e => handleChangeField(row.No, 'time', e.target.value)}
+                                        >
+                                            <MenuItem disabled value={["a"]} >
+                                                Chọn giờ
+                                            </MenuItem>
+                                            {availableTimes.map(time => (
+                                                <MenuItem key={time} value={time}>{time}</MenuItem>
+                                            ))}
+                                        </Select>
+
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button icon={<SaveIcon />} onClick={() => handleSaveSche(row.No)}>
+                                            Save
+                                        </Button>
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <IconButton onClick={() => handleDeleteRow(row.No)} aria-label="delete">
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+
+                {/*<Button className= {s.edit} variant="contained" startIcon={<BeforeIcon />} onClick={handleBefore}>*/}
+                {/*  BEFORE*/}
+                {/*</Button>*/}
+                {/*<Button className= {s.edit} variant="contained" startIcon={<NextIcon />} onClick={handleNext}>*/}
+                {/*NEXT*/}
+                {/*</Button>*/}
+                <Button icon={<AddIcon />} onClick={handleAddRow}>
+                    Add Row
+                </Button>
+                <ToastContainer />
+
+
+            </Layout>
+
+
+        </>
+    // <div className={s.body}>
+    //   <div className={s.container}>
+    //     <div className={s.leftcolumn}>
+    //       <div className={s.a1}>
+    //         {
+    //           (selectedImage == null) ?
+    //               <div></div>:
+    //               <img src={selectedImage} alt="Mô tả ảnh"/>
+    //         }
+    //       </div>
+    //       {/*return (*/}
+    //       <div>
+    //         <input type="file" onChange={handleFileChange} />
+    //       </div>
+    //       {/*);*/}
+    //     </div>
+    //
+    //     <div className={s.rightcolumn}>
+    //       <div className={s.title}>
+    //         <div>
+    //           {isEditing ? (
+    //               <input className={s.name} type="text" value={text?.title} />
+    //           ) : (
+    //               <div>
+    //                 {
+    //                   (!films ) ?
+    //                       <div></div>:<div className={s.name}>{films.title}</div>
+    //                 }
+    //               </div>
+    //           )}
+    //         </div>
+    //       </div>
+    //     <div className={s.flex}>
+    //       <div className={s.info}> Title: </div>
+    //       <div>
+    //         {isEditing ? (
+    //           <input className={s.data} type="text" value={text?.title} onChange={handleInputChange1} />
+    //         ) : (
+    //           <div>
+    //             {
+    //               (!films ) ?
+    //               <div></div>:<div className={s.data}>{films.title}</div>
+    //             }
+    //           </div>
+    //         )}
+    //       </div>
+    //     </div>
+    //     <div className={s.flex}>
+    //       <div className={s.info}> Genre: </div>
+    //       <div>
+    //         {isEditing ? (
+    //           <input className={s.data} type="text" value={text?.genre} onChange={handleInputChange2} />
+    //         ) : (
+    //           <div>
+    //           {
+    //             (!films ) ?
+    //             <div></div>:<div className={s.data}>{films.genre.join(", ")}</div>
+    //           }
+    //         </div>
+    //         )}
+    //       </div>
+    //     </div>
+    //     <div className={s.flex}>
+    //       <div className={s.info}> Director: </div>
+    //       <div>
+    //         {isEditing ? (
+    //           <input className={s.data} type="text" value={text?.director} onChange={handleInputChange3} />
+    //         ) : (
+    //           <div>
+    //           {
+    //             (!films ) ?
+    //             <div></div>:<div className={s.data}>{films.director}</div>
+    //           }
+    //         </div>
+    //         )}
+    //       </div>
+    //     </div>
+    //     <div className={s.flex}>
+    //       <div className={s.info}> Cast: </div>
+    //       <div>
+    //         {isEditing ? (
+    //           <input className={s.data} type="text" value={text?.cast} onChange={handleInputChange4} />
+    //         ) : (
+    //           <div>
+    //           {
+    //             (!films ) ?
+    //             <div></div>:<div className={s.data}>{films.cast.join(", ")}</div>
+    //           }
+    //         </div>
+    //         )}
+    //       </div>
+    //     </div>
+    //     <div className={s.flex}>
+    //       <div className={s.info}> Duration: </div>
+    //       <div>
+    //         {isEditing ? (
+    //           <input className={s.data} type="text" value={text?.duration} onChange={handleInputChange5} />
+    //         ) : (
+    //           <div>
+    //           {
+    //             (!films ) ?
+    //             <div></div>:<div className={s.data}>{films.duration}</div>
+    //           }
+    //         </div>
+    //         )}
+    //       </div>
+    //     </div>
+    //     <div className={s.flex}>
+    //       <div className={s.info}> Language: </div>
+    //       <div>
+    //         {isEditing ? (
+    //           <input className={s.data} type="text" value={text?.language} onChange={handleInputChange6} />
+    //         ) : (
+    //           <div>
+    //           {
+    //             (!films ) ?
+    //             <div></div>:<div className={s.data}>{films.language.join(", ")}</div>
+    //           }
+    //         </div>
+    //         )}
+    //       </div>
+    //     </div>
+    //     <div className={s.flex}>
+    //       <div className={s.info}> Rating: </div>
+    //       <div>
+    //         {isEditing ? (
+    //           <input className={s.data} type="text" value={text?.rating} onChange={handleInputChange7} />
+    //         ) : (
+    //           <div>
+    //           {
+    //             (!films ) ?
+    //             <div></div>:<div className={s.data}>{films.rating}</div>
+    //           }
+    //         </div>
+    //         )}
+    //       </div>
+    //     </div>
+    //     <div className={s.flex}>
+    //       <div className={s.info}> Description: </div>
+    //       <div>
+    //         {isEditing ? (
+    //           <input className={s.data} type="text" value={text?.description} onChange={handleInputChange8} />
+    //         ) : (
+    //           <div>
+    //           {
+    //             (!films ) ?
+    //             <div></div>:<div className={s.data}>{films.description}</div>
+    //           }
+    //         </div>
+    //         )}
+    //       </div>
+    //     </div>
+    //
+    //
+    //
+    //     <Button variant="contained" startIcon={<EditIcon />} onClick={handleEditClick}>
+    //       Edit
+    //     </Button>
+    //     <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={handleSaveClick}>
+    //     Save
+    //     </Button>
+    //     </div>
+    //   </div>
+    //
+    //
+
+
+    // </div>
     );
 }
 

@@ -38,7 +38,7 @@ export default function Movies_Admin (){
                         cast: item.cast.map(c => c).join(","),
                         duration: item.duration,
                         rating: item.rating,
-                        action: "Update"
+
                     }));
                     setDataSource([...db1]);
                     break;
@@ -55,7 +55,7 @@ export default function Movies_Admin (){
                         cast: item.cast.map(c => c).join(","),
                         duration: item.duration,
                         rating: item.rating,
-                        action: "Update"
+
                     }));
                     setDataSource([...db2]);
 
@@ -73,7 +73,7 @@ export default function Movies_Admin (){
                         cast: item.cast.map(c => c).join(","),
                         duration: item.duration,
                         rating: item.rating,
-                        action: "Update"
+
                     }));
                     setDataSource([...db3]);
                     break;
@@ -117,8 +117,8 @@ export default function Movies_Admin (){
         },
         {
             title: 'Director',
-            dataIndex: 'direction',
-            key: 'direction',
+            dataIndex: 'director',
+            key: 'director',
         },
         {
             title: 'Cast',
@@ -144,6 +144,9 @@ export default function Movies_Admin (){
             title: 'Action',
             dataIndex: 'action',
             key: 'action',
+            render: (text, record) => (
+                <a href={`/admin/movie/${record.id}`}>Chi tiết</a>
+            ),
         },
     ];
 
