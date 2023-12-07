@@ -205,6 +205,7 @@ const scheduleController = {
                 res.status(200).json(theatres);
             } else if (showtimeId && theatre && !date && !timeSlot) {
                 const currentDate = new Date();
+                currentDate.setHours(7, 0, 0, 0);
                 const dates = await Schedule.distinct('date', { showtimeId, theatre, date: { $gte: currentDate } });
                 const formattedDates = dates.map(date => {
                     const dateString = new Date(date).toISOString().split("T")[0];
@@ -213,9 +214,16 @@ const scheduleController = {
                 });
                 res.status(200).json(formattedDates);
             } else if (showtimeId && theatre && date && !timeSlot) {
-                const parsedDate = new Date(date); // Convert date parameter to Date object
-                const times = await Schedule.distinct('time', { showtimeId, theatre, date: parsedDate });
-                res.status(200).json(times);
+                const parsedDate = new Date(date);
+                const t = new Date();
+                t.setHours(t.getHours());
+                let dateComp = t.getHours() + ":" + t.getMinutes();// Convert date parameter to Date object
+                const times = await Schedule.distinct('time', { showtimeId, theatre, date: parsedDate});
+                const filteredTimes = times.filter((time) => time > dateComp);
+                console.log("y", times);
+                console.log("đ", dateComp);
+                console.log("", filteredTimes);
+                res.status(200).json(filteredTimes);
             // }else if(!showtimeId && !theatre && !date && !timeSlot){
             //     const schedule = await Schedule.find({showtimeId, time: timeSlot});
             //     res.status(200).json(schedule);

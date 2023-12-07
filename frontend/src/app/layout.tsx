@@ -8,7 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { usePathname } from "next/navigation"
 import { store, persistor } from "@/redux/store"
 import Header from "@/components/header/header"
-import Footer from "@/components/footer/footer"
+import FooterPage from "@/components/footer/footer"
 const inter = Inter({ subsets: ['latin'] })
 
 const font = Nunito({
@@ -36,7 +36,7 @@ export default function RootLayout({
       <PersistGate loading={null} persistor={persistor}>
         {pathname==="/login"||pathname=="/signup"||pathname.includes("/admin")?<></>:<Header/>}
         {children}
-        {pathname==="/login"||pathname=="/signup"||pathname.includes("/admin")?<></>: <Footer/>}
+        {pathname==="/login"||pathname=="/signup"||pathname.includes("/admin")?<></>: <FooterPage/>}
         </PersistGate>
       </Provider>
       </body>
